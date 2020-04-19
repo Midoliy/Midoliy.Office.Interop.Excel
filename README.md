@@ -72,7 +72,7 @@ class Program
             app[1][1]["A1"].Value = 100;
 
             // パターン(1) と パターン(2)を複合させても良い
-            app[1].Worksheets(1)["A1"].Valeue = 100;                
+            app[1].Worksheets(1)["A1"].Value = 100;                
         }
     }
 }
