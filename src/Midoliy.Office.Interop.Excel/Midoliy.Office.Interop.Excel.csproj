@@ -11,12 +11,13 @@
     <PackageId>Midoliy.Office.Interop.Excel</PackageId>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.2</Version>
+    <Version>0.0.3</Version>
     <Company />
     <PackageIcon>midoliy_logo.png</PackageIcon>
-    <AssemblyVersion>0.0.2.0</AssemblyVersion>
-    <FileVersion>0.0.2.0</FileVersion>
+    <AssemblyVersion>0.0.3.0</AssemblyVersion>
+    <FileVersion>0.0.3.0</FileVersion>
     <PackageProjectUrl>https://github.com/Midoliy/Midoliy.Office.Interop.Excel</PackageProjectUrl>
+    <PackageTags>Midoliy,Office,Interop,Excel,COM</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net40|AnyCPU'">
