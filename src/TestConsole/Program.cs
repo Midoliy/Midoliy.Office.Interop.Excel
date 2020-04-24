@@ -18,6 +18,7 @@ namespace TestConsole
                 sheet["A1"].Value = 100;
                 sheet["B1"].Value = "Test String";
                 app[1][1][1, 1].Value = 100;
+                app[1][1]["C1"].Paste(app[1][1][1, 1]);
                 app.Visibility = AppVisibility.Visible;
             }
         }

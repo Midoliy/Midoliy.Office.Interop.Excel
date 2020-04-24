@@ -7,12 +7,12 @@ using MsExcel = Microsoft.Office.Interop.Excel;
 
 namespace Midoliy.Office.Interop.Objects
 {
-    internal class ExcelRange : IExcelRange
+    internal struct ExcelRange : IExcelRange
     {
-        public dynamic Value 
+        public dynamic Value
         {
-            get => _range.Value; 
-            set => _range.Value = value; 
+            get => _range.Value;
+            set => _range.Value = value;
         }
 
         public dynamic Formula
@@ -21,8 +21,23 @@ namespace Midoliy.Office.Interop.Objects
             set => _range.Formula = value;
         }
 
+        public bool Copy()
+            => (bool)_range.Copy();
+
+        public bool Paste(IExcelRange from, PasteType type, PasteOperation operation, bool skipBlanks, bool transpose)
+        {
+            if (!from.Copy())
+                return false;
+
+            return (bool)_range.PasteSpecial(
+                Paste: (MsExcel.XlPasteType)type,
+                Operation: (MsExcel.XlPasteSpecialOperation)operation,
+                SkipBlanks: skipBlanks,
+                Transpose: transpose);
+        }
+
         public void Clear()
-            => _range.Clear(); 
+            => _range.Clear();
 
         internal ExcelRange(MsExcel.Range range)
         {
@@ -35,7 +50,7 @@ namespace Midoliy.Office.Interop.Objects
         #region IDisposable Support
         private bool _disposedValue;
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (_disposedValue)
                 return;
