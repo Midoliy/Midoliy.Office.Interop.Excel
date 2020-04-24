@@ -9,10 +9,10 @@ namespace Midoliy.Office.Interop.Objects
 {
     internal struct ExcelRange : IExcelRange
     {
-        public dynamic Value 
+        public dynamic Value
         {
-            get => _range.Value; 
-            set => _range.Value = value; 
+            get => _range.Value;
+            set => _range.Value = value;
         }
 
         public dynamic Formula
@@ -21,23 +21,23 @@ namespace Midoliy.Office.Interop.Objects
             set => _range.Formula = value;
         }
 
-        public IExcelRange Copy()
-            => new ExcelRange(_range.Copy() as MsExcel.Range);
-        
-        public IExcelRange Paste(IExcelRange from, PasteType type, PasteOperation operation, bool skipBlanks, bool transpose)
+        public bool Copy()
+            => (bool)_range.Copy();
+
+        public bool Paste(IExcelRange from, PasteType type, PasteOperation operation, bool skipBlanks, bool transpose)
         {
-            _ = from.Copy();
-            return new ExcelRange(
-                _range.PasteSpecial(
-                    Paste: (MsExcel.XlPasteType)type,
-                    Operation: (MsExcel.XlPasteSpecialOperation)operation,
-                    SkipBlanks: skipBlanks,
-                    Transpose: transpose
-                ) as MsExcel.Range);
+            if (!from.Copy())
+                return false;
+
+            return (bool)_range.PasteSpecial(
+                Paste: (MsExcel.XlPasteType)type,
+                Operation: (MsExcel.XlPasteSpecialOperation)operation,
+                SkipBlanks: skipBlanks,
+                Transpose: transpose);
         }
 
         public void Clear()
-            => _range.Clear(); 
+            => _range.Clear();
 
         internal ExcelRange(MsExcel.Range range)
         {
