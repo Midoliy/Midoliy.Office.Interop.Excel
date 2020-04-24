@@ -17,8 +17,10 @@ namespace TestConsole
                 var sheet = book[1];
                 sheet["A1"].Value = 100;
                 sheet["B1"].Value = "Test String";
+                sheet["B2"].Value = "Test String2";
                 app[1][1][1, 1].Value = 100;
                 app[1][1]["C1"].Paste(app[1][1][1, 1]);
+                sheet["B1"].Delete(ShiftDirection.Up);
                 app.Visibility = AppVisibility.Visible;
             }
         }

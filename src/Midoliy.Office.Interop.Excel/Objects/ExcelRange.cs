@@ -36,6 +36,9 @@ namespace Midoliy.Office.Interop.Objects
                 Transpose: transpose);
         }
 
+        public bool Delete(ShiftDirection direction)
+            => (bool)_range.Delete((MsExcel.XlDeleteShiftDirection)direction);
+
         public void Clear()
             => _range.Clear();
 

@@ -27,6 +27,13 @@ namespace Midoliy.Office.Interop
         /// <returns>true: 処理成功</returns>
         bool Paste(IExcelRange from, PasteType type = PasteType.All, PasteOperation operation = PasteOperation.None, bool skipBlanks = false, bool transpose = false);
 
+        /// <summary>
+        /// 対象のセルを削除する
+        /// </summary>
+        /// <param name="direction">セルを削除したあとのシフト方向</param>
+        /// <returns>true: 処理成功</returns>
+        bool Delete(ShiftDirection direction = ShiftDirection.Left);
+
         void Clear();
     }
 }
