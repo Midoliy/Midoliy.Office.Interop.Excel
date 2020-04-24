@@ -7,7 +7,7 @@ using MsExcel = Microsoft.Office.Interop.Excel;
 
 namespace Midoliy.Office.Interop.Objects
 {
-    internal class ExcelRange : IExcelRange
+    internal struct ExcelRange : IExcelRange
     {
         public dynamic Value 
         {
@@ -19,6 +19,21 @@ namespace Midoliy.Office.Interop.Objects
         {
             get => _range.Formula;
             set => _range.Formula = value;
+        }
+
+        public IExcelRange Copy()
+            => new ExcelRange(_range.Copy() as MsExcel.Range);
+        
+        public IExcelRange Paste(IExcelRange from, PasteType type, PasteOperation operation, bool skipBlanks, bool transpose)
+        {
+            _ = from.Copy();
+            return new ExcelRange(
+                _range.PasteSpecial(
+                    Paste: (MsExcel.XlPasteType)type,
+                    Operation: (MsExcel.XlPasteSpecialOperation)operation,
+                    SkipBlanks: skipBlanks,
+                    Transpose: transpose
+                ) as MsExcel.Range);
         }
 
         public void Clear()
@@ -35,7 +50,7 @@ namespace Midoliy.Office.Interop.Objects
         #region IDisposable Support
         private bool _disposedValue;
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (_disposedValue)
                 return;

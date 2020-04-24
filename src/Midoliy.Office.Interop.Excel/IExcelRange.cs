@@ -10,6 +10,9 @@ namespace Midoliy.Office.Interop
         dynamic Value { get; set; }
         dynamic Formula { get; set; }
 
+        IExcelRange Copy();
+        IExcelRange Paste(IExcelRange from, PasteType type = PasteType.All, PasteOperation operation = PasteOperation.None, bool skipBlanks = false, bool transpose = false);
+
         void Clear();
     }
 }
