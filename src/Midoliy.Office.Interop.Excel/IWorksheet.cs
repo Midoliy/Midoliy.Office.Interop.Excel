@@ -10,7 +10,7 @@ namespace Midoliy.Office.Interop
         /// <summary>
         /// シートの表示状態
         /// </summary>
-        SheetVisiblity Visiblity { get; set; }
+        SheetVisiblity Visibility { get; set; }
 
         /// <summary>
         /// シート名
