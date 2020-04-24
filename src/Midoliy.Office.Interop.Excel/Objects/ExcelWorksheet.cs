@@ -9,7 +9,7 @@ namespace Midoliy.Office.Interop.Objects
 {
     internal class ExcelWorksheet : IWorksheet
     {
-        public SheetVisiblity Visiblity 
+        public SheetVisiblity Visibility
         { 
             get => (SheetVisiblity)_sheet.Visible; 
             set => _sheet.Visible = (MsExcel.XlSheetVisibility)value;
