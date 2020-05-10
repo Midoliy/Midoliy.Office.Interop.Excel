@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Midoliy.Office.Interop.Objects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,8 @@ namespace Midoliy.Office.Interop
     {
         dynamic Value { get; set; }
         dynamic Formula { get; set; }
+        IRangeFont Font { get; }
+
 
         /// <summary>
         /// クリップボードにコピーする

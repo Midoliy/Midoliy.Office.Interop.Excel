@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using static Midoliy.Office.Interop.FontStyle;
 
 namespace TestConsole
 {
@@ -21,6 +22,9 @@ namespace TestConsole
                 app[1][1][1, 1].Value = 100;
                 app[1][1]["C1"].Paste(app[1][1][1, 1]);
                 sheet["B1"].Delete(ShiftDirection.Up);
+                var size = sheet["B1"].Font.Size;
+                sheet["B1"].Font.Size = 24;
+                sheet["B1"].Font.FontStyle = Bold | Italic | Shadow | Strikethrough | Subscript | DoubleUnderline;
                 app.Visibility = AppVisibility.Visible;
             }
         }

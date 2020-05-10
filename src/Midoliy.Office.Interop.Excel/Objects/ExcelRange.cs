@@ -21,6 +21,9 @@ namespace Midoliy.Office.Interop.Objects
             set => _range.Formula = value;
         }
 
+        public IRangeFont Font
+            => new RangeFont(_range.Font);
+
         public bool Copy()
             => (bool)_range.Copy();
 
