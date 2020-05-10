@@ -10,7 +10,7 @@ namespace Midoliy.Office.Interop.Objects
     {
         public double Size { get => (double)_font.Size; set => _font.Size = value; }
 
-        public FontStyle FontStyle 
+        public FontStyle Style 
         {
             get
             {

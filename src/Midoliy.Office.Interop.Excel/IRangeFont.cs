@@ -8,6 +8,6 @@ namespace Midoliy.Office.Interop
     public interface IRangeFont
     {
         double Size { get; set; }
-        FontStyle FontStyle { get; set; }
+        FontStyle Style { get; set; }
     }
 }
