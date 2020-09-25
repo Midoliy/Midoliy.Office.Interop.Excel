@@ -96,10 +96,8 @@ class Program
 
        // インデクサでアクセスすることも可能
        var workbook2 = app[1];
-   ```
-
-
-        // do something...
+       
+       // do something...
 
     }
     ```
