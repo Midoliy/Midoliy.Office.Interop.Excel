@@ -52,6 +52,9 @@ namespace Midoliy.Office.Interop
             return acc.ToString();
         }
 
+        internal static int FindKey(string value)
+            => _columnNameStorage.FirstOrDefault(x => x.Value == value).Key;
+
         private static readonly Dictionary<int, string> _columnNameStorage;
         private static readonly string _columnNameTable;
         private static readonly int _tableSize;
