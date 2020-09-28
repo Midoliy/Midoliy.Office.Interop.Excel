@@ -24,8 +24,9 @@ namespace Midoliy.Office.Interop
                 return key;
 
             var found = IntegerEx.FindKey(@this);
-            if (0 < found)
+            if (-1 < found)
             {
+                found = found + 1;
                 _columnNumberStorage.Add(@this, found);
                 return found;
             }
