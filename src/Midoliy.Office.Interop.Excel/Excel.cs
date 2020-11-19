@@ -19,7 +19,7 @@ namespace Midoliy.Office.Interop
         public static IExcelApplication CreateFrom(string templatePath)
         {
             var excel = new ExcelApplication();
-            var book = excel.CreateFrom(templatePath);
+            _ = excel.CreateFrom(templatePath);
             return excel;
         }
 
