@@ -11,8 +11,7 @@ namespace Midoliy.Office.Interop
         public static IExcelApplication BlankWorkbook()
         {
             var excel = new ExcelApplication();
-            var book = excel.BlankWorkbook();
-            _ = book.NewSheet();
+            _ = excel.BlankWorkbook();
             return excel;
         }
 
