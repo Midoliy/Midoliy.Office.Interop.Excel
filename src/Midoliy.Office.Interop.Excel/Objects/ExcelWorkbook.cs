@@ -62,6 +62,8 @@ namespace Midoliy.Office.Interop.Objects
         {
             _book = book;
             _children = new List<IWorksheet>();
+            foreach (MsExcel.Worksheet sheet in book.Worksheets)
+                _children.Add(new ExcelWorksheet(sheet));
             _disposedValue = false;
         }
 
