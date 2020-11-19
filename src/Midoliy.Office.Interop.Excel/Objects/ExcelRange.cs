@@ -39,7 +39,10 @@ namespace Midoliy.Office.Interop.Objects
                 Transpose: transpose);
         }
 
-        public bool Delete(ShiftDirection direction)
+        public bool Insert(InsertShiftDirection direction, InsertFormatOrigin origin)
+            => (bool)_range.Insert(direction, origin);
+
+        public bool Delete(DeleteShiftDirection direction)
             => (bool)_range.Delete((MsExcel.XlDeleteShiftDirection)direction);
 
         public void Clear()

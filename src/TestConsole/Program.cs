@@ -12,11 +12,6 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
-            var b = "B".ToColumnNumber();
-            var b2 = "B".ToColumnNumber();
-            Console.WriteLine(b);
-            Console.WriteLine(b2);
-
             //using (var app = Excel.BlankWorkbook())
             //{
             //    app.Visibility = AppVisibility.Visible;
@@ -30,7 +25,7 @@ namespace TestConsole
             //    app[1][1]["C1"].Paste(app[1][1][1, 1]);
             //
             //    // ============================================================================
-            //    //     ↓↓↓↓↓    ver 0.0.5 追加分    ↓↓↓↓↓
+            //    //     ↓↓↓↓↓    ver 0.0.5.4 追加分    ↓↓↓↓↓
             //    //
             //    var a1 = app.Workbooks(1).Worksheets(1).Cells("A1");
             //
@@ -41,8 +36,30 @@ namespace TestConsole
             //    a1.Font.Style = Bold | Italic | Shadow | Strikethrough | Subscript | DoubleUnderline;
             //
             //    // セルの削除機能
-            //    a1.Delete(ShiftDirection.Up);
+            //    a1.Delete(DeleteShiftDirection.Up);
             //}
+
+            using (var app = Excel.BlankWorkbook())
+            {
+                app.Visibility = AppVisibility.Visible;
+
+                var book = app[1];
+                var sheet = book[1];
+
+                // ============================================================================
+                //     ↓↓↓↓↓    ver 0.0.5.5 追加分    ↓↓↓↓↓
+                //
+                var a1k1 = app.Workbooks(1).Worksheets(1).Ranges("A1:K1");
+
+                a1k1.Font.Size = 24;
+                a1k1.Font.Style = Bold | Italic | Shadow | Strikethrough | Subscript | DoubleUnderline;
+                a1k1.Value = 100;
+
+                // A1:K1 に Range を挿入
+                a1k1.Insert(direction: InsertShiftDirection.Down, origin: InsertFormatOrigin.FromRightOrBelow);
+
+                app.Workbooks(1).Worksheets(1).Cells("A1").Value = 200;
+            }
         }
     }
 }
