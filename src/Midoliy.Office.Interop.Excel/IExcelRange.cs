@@ -9,6 +9,10 @@ namespace Midoliy.Office.Interop
     {
         dynamic Value { get; set; }
         dynamic Formula { get; set; }
+        int Row { get; }
+        IExcelRows Rows { get; }
+        int Column { get; }
+        IExcelColumns Columns { get; }
         IRangeFont Font { get; }
 
         /// <summary>

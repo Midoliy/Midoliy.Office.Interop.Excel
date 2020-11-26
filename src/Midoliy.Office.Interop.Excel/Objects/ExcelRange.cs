@@ -7,7 +7,7 @@ using MsExcel = Microsoft.Office.Interop.Excel;
 
 namespace Midoliy.Office.Interop.Objects
 {
-    internal struct ExcelRange : IExcelRange
+    internal struct ExcelRange : IExcelRange, IExcelRows, IExcelColumns
     {
         public dynamic Value
         {
@@ -20,6 +20,24 @@ namespace Midoliy.Office.Interop.Objects
             get => _range.Formula;
             set => _range.Formula = value;
         }
+
+        public bool Hidden
+        {
+            get => (bool)_range.Hidden;
+            set => _range.Hidden = value;
+        }
+
+        public int Row
+            => _range.Row;
+
+        public IExcelRows Rows
+            => new ExcelRange(_range.Rows);
+
+        public int Column
+            => _range.Column;
+
+        public IExcelColumns Columns
+            => new ExcelRange(_range.Columns);
 
         public IRangeFont Font
             => new RangeFont(_range.Font);
