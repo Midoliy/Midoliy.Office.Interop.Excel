@@ -5,6 +5,7 @@ namespace Midoliy.Office.Interop
     using static Midoliy.Office.Interop.DeleteShiftDirection;
     using static Midoliy.Office.Interop.InsertShiftDirection;
     using static Midoliy.Office.Interop.InsertFormatOrigin;
+
     public interface IExcelRange : IDisposable
     {
         dynamic Value { get; set; }
@@ -46,6 +47,13 @@ namespace Midoliy.Office.Interop
         /// <param name="direction">セルを削除したあとのシフト方向</param>
         /// <returns>true: 処理成功</returns>
         bool Delete(DeleteShiftDirection direction = Left);
+
+        /// <summary>
+        /// 指定した方向の最端セルを取得する
+        /// </summary>
+        /// <param name="direction">検索方向</param>
+        /// <returns>最端セルインスタンス</returns>
+        IExcelRange End(Direction direction = Direction.Down);
 
         void Clear();
     }

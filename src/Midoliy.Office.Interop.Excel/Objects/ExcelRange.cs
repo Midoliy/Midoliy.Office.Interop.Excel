@@ -57,7 +57,7 @@ namespace Midoliy.Office.Interop.Objects
                 Transpose: transpose);
         }
 
-        public bool Insert(InsertShiftDirection direction, InsertFormatOrigin origin)
+        public bool Insert(InsertShiftDirection direction = InsertShiftDirection.Down, InsertFormatOrigin origin = InsertFormatOrigin.FromRightOrBelow)
             => (bool)_range.Insert(direction, origin);
 
         public bool Delete(DeleteShiftDirection direction)
@@ -65,6 +65,9 @@ namespace Midoliy.Office.Interop.Objects
 
         public void Clear()
             => _range.Clear();
+
+        public IExcelRange End(Direction direction = Direction.Down)
+            => new ExcelRange(_range.End[(MsExcel.XlDirection)direction]);
 
         internal ExcelRange(MsExcel.Range range)
         {
