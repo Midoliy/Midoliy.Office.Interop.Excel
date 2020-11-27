@@ -23,14 +23,14 @@ namespace Midoliy.Office.Interop
                 index = (index * 26) + (col - 'A' + 1);
 
             _columnNumberStorage.Add(@this, index);
-            return (int)index;
+            return index;
         }
 
         private static bool IsValidColumnName(this string @this)
         {
             foreach (uint c in @this.ToUpper())
             {
-                if (c < (uint)'A' && (uint)'Z' < c)
+                if (c < 'A' && 'Z' < c)
                     return false;
             }
             return true;
