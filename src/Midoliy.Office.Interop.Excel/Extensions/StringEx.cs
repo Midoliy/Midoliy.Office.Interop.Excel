@@ -7,14 +7,22 @@ namespace Midoliy.Office.Interop
 {
     public static class StringEx
     {
+        static StringEx()
+            => _columnNumberStorage = new Dictionary<string, int>();
+
         public static int ToColumnNumber(this string @this)
         {
             if (!@this.IsValidColumnName())
-                throw new ArgumentException("The string must contain only A to Z.");
+                throw new ArgumentOutOfRangeException("The string must contain only A to Z.");
 
-            var index = 0u;
-            foreach (uint col in @this.ToUpper())
-                index = index * 26 + ((uint)col - (uint)'A' + 1);
+            if (_columnNumberStorage.TryGetValue(@this, out int n))
+                return n;
+
+            var index = 0;
+            foreach (int col in @this.ToUpper())
+                index = (index * 26) + (col - 'A' + 1);
+
+            _columnNumberStorage.Add(@this, index);
             return (int)index;
         }
 
@@ -27,5 +35,7 @@ namespace Midoliy.Office.Interop
             }
             return true;
         }
+
+        private static readonly Dictionary<string, int> _columnNumberStorage;
     }
 }
