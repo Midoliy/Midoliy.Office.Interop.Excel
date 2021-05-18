@@ -16,7 +16,10 @@ namespace Midoliy.Office.Interop.Objects
         }
 
         public string Name
-            => _sheet.Name;
+        {
+            get => _sheet.Name;
+            set => _sheet.Name = value;
+        }
 
         public IExcelRange this[int row, int col] 
         { 
