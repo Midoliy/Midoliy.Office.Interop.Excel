@@ -40,7 +40,6 @@ namespace Midoliy.Office.Interop.Objects
 
             var sheet = NewSheet();
             sheet.Name = sheetName;
-            //var sheet = new ExcelWorksheet(_book.Sheets[sheetName] as MsExcel.Worksheet);
             _children.Add(sheet);
             return sheet;
         }
