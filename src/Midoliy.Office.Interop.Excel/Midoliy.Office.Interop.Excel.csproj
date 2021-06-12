@@ -1,21 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net40;net452;net461;net472;net48;</TargetFrameworks>
+    <TargetFrameworks>net40;net452;net461;net472;net48;net5.0;</TargetFrameworks>
     <AssemblyName>Midoliy.Office.Interop</AssemblyName>
     <RootNamespace>Midoliy.Office.Interop</RootNamespace>
     <Authors>Midoliy</Authors>
     <Product>Midoliy.Office.Interop.Excel</Product>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Copyright>©2020 Midoliy</Copyright>
+    <Copyright>©2020-2021 Midoliy</Copyright>
     <PackageId>Midoliy.Office.Interop.Excel</PackageId>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.5.5</Version>
+    <Version>0.0.6.0</Version>
     <Company />
     <PackageIcon>midoliy_logo.png</PackageIcon>
-    <AssemblyVersion>0.0.5.5</AssemblyVersion>
-    <FileVersion>0.0.5.5</FileVersion>
+    <AssemblyVersion>0.0.6.0</AssemblyVersion>
+    <FileVersion>0.0.6.0</FileVersion>
     <PackageProjectUrl>https://github.com/Midoliy/Midoliy.Office.Interop.Excel</PackageProjectUrl>
     <PackageTags>Midoliy,Office,Interop,Excel,COM</PackageTags>
   </PropertyGroup>
@@ -28,8 +28,30 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
-  <ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'!='net5.0'">
     <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1000" />
+  </ItemGroup>
+	
+  <ItemGroup Condition="'$(TargetFramework)'=='net5.0'">
+    <COMReference Include="Microsoft.Office.Core">
+      <WrapperTool>tlbimp</WrapperTool>
+      <VersionMinor>8</VersionMinor>
+      <VersionMajor>2</VersionMajor>
+      <Guid>2df8d04c-5bfa-101b-bde5-00aa0044de52</Guid>
+      <Lcid>0</Lcid>
+      <Isolated>false</Isolated>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <WrapperTool>tlbimp</WrapperTool>
+      <VersionMinor>9</VersionMinor>
+      <VersionMajor>1</VersionMajor>
+      <Guid>00020813-0000-0000-c000-000000000046</Guid>
+      <Lcid>0</Lcid>
+      <Isolated>false</Isolated>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
 
   <ItemGroup>

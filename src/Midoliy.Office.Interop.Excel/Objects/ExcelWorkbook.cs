@@ -37,8 +37,9 @@ namespace Midoliy.Office.Interop.Objects
         {
             if (_children.Any(c => c.Name == sheetName))
                 throw new AlreadyExistsException(sheetName);
-            
-            var sheet = new ExcelWorksheet(_book.Sheets[sheetName] as MsExcel.Worksheet);
+
+            var sheet = NewSheet();
+            sheet.Name = sheetName;
             _children.Add(sheet);
             return sheet;
         }

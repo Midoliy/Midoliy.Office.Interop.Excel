@@ -9,57 +9,34 @@ namespace Midoliy.Office.Interop
     {
         static IntegerEx()
         {
-            _columnNameStorage = new Dictionary<int, string>();
-            _columnNameTable = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            _tableSize = _columnNameTable.Length;
+            _1digits = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            _2digits = "AAABACADAEAFAGAHAIAJAKALAMANAOAPAQARASATAUAVAWAXAYAZBABBBCBDBEBFBGBHBIBJBKBLBMBNBOBPBQBRBSBTBUBVBWBXBYBZCACBCCCDCECFCGCHCICJCKCLCMCNCOCPCQCRCSCTCUCVCWCXCYCZDADBDCDDDEDFDGDHDIDJDKDLDMDNDODPDQDRDSDTDUDVDWDXDYDZEAEBECEDEEEFEGEHEIEJEKELEMENEOEPEQERESETEUEVEWEXEYEZFAFBFCFDFEFFFGFHFIFJFKFLFMFNFOFPFQFRFSFTFUFVFWFXFYFZGAGBGCGDGEGFGGGHGIGJGKGLGMGNGOGPGQGRGSGTGUGVGWGXGYGZHAHBHCHDHEHFHGHHHIHJHKHLHMHNHOHPHQHRHSHTHUHVHWHXHYHZIAIBICIDIEIFIGIHIIIJIKILIMINIOIPIQIRISITIUIVIWIXIYIZJAJBJCJDJEJFJGJHJIJJJKJLJMJNJOJPJQJRJSJTJUJVJWJXJYJZKAKBKCKDKEKFKGKHKIKJKKKLKMKNKOKPKQKRKSKTKUKVKWKXKYKZLALBLCLDLELFLGLHLILJLKLLLMLNLOLPLQLRLSLTLULVLWLXLYLZMAMBMCMDMEMFMGMHMIMJMKMLMMMNMOMPMQMRMSMTMUMVMWMXMYMZNANBNCNDNENFNGNHNINJNKNLNMNNNONPNQNRNSNTNUNVNWNXNYNZOAOBOCODOEOFOGOHOIOJOKOLOMONOOOPOQOROSOTOUOVOWOXOYOZPAPBPCPDPEPFPGPHPIPJPKPLPMPNPOPPPQPRPSPTPUPVPWPXPYPZQAQBQCQDQEQFQGQHQIQJQKQLQMQNQOQPQQQRQSQTQUQVQWQXQYQZRARBRCRDRERFRGRHRIRJRKRLRMRNRORPRQRRRSRTRURVRWRXRYRZSASBSCSDSESFSGSHSISJSKSLSMSNSOSPSQSRSSSTSUSVSWSXSYSZTATBTCTDTETFTGTHTITJTKTLTMTNTOTPTQTRTSTTTUTVTWTXTYTZUAUBUCUDUEUFUGUHUIUJUKULUMUNUOUPUQURUSUTUUUVUWUXUYUZVAVBVCVDVEVFVGVHVIVJVKVLVMVNVOVPVQVRVSVTVUVVVWVXVYVZWAWBWCWDWEWFWGWHWIWJWKWLWMWNWOWPWQWRWSWTWUWVWWWXWYWZXAXBXCXDXEXFXGXHXIXJXKXLXMXNXOXPXQXRXSXTXUXVXWXXXYXZYAYBYCYDYEYFYGYHYIYJYKYLYMYNYOYPYQYRYSYTYUYVYWYXYYYZZAZBZCZDZEZFZGZHZIZJZKZLZMZNZOZPZQZRZSZTZUZVZWZXZYZZ";
         }
 
-        public static string  ToColumnName(this int @this)
+        public static string ToColumnName(this int @this)
         {
-            var src = @this - 1;
-            if (_columnNameStorage.TryGetValue(src, out string name))
-                return name;
+            if (@this <= 0)
+                throw new ArgumentOutOfRangeException("Should be a value greater than 0.");
 
-            var col = src.ToColumnNameStack().AsString();
-            _columnNameStorage.Add(src, col);
+            if (@this < 27)
+                return _1digits.Substring(@this - 1, 1);
 
-            return col;
-        }
+            if (@this < (27 + 26 * 26))
+                return _2digits.Substring((@this - 27) * 2, 2);
 
-        private static Stack<char> ToColumnNameStack(this int @this)
-        {
             var acc = new Stack<char>();
-            ToColumnName(@this, acc);
-            return acc;
+            while (0 < @this)
+            {
+                @this -= 1;
+                var padding = @this % 26;
+                acc.Push((char)('A' + padding));
+                @this /= 26;
+            }
+
+            return string.Concat(acc);
         }
 
-        private static void ToColumnName(int i, Stack<char> acc)
-        {
-            if (i < 0)
-                return;
-
-            acc.Push(_columnNameTable[i % _tableSize]);
-
-            if (_tableSize <= i)
-                ToColumnName(i / _tableSize - 1, acc);
-        }
-
-        private static string AsString(this Stack<char> @this)
-        {
-            var acc = new StringBuilder();
-            foreach (var c in @this)
-                acc.Append(c);
-            return acc.ToString();
-        }
-
-        internal static int FindKey(string value)
-        { 
-            var fst = _columnNameStorage.FirstOrDefault(x => x.Value == value);
-            return fst.Value == default ? -1 : fst.Key;
-        }
-
-        private static readonly Dictionary<int, string> _columnNameStorage;
-        private static readonly string _columnNameTable;
-        private static readonly int _tableSize;
+        private static readonly string _1digits;
+        private static readonly string _2digits;
     }
 }

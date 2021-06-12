@@ -15,7 +15,7 @@ namespace Midoliy.Office.Interop
         /// <summary>
         /// シート名
         /// </summary>
-        string Name { get; }
+        string Name { get; set; }
 
         /// <summary>
         /// セル選択
