@@ -107,6 +107,18 @@ namespace Midoliy.Office.Interop.Objects
             Visibility = AppVisibility.Hidden;
             _disposedValue = false;
         }
+        public ExcelApplication(MsExcel.Application app)
+        {
+            _app = app;
+            _app.IgnoreRemoteRequests = true;
+            _app.DisplayAlerts = false;
+            _children = new List<IWorkbook>();
+            _disposedValue = false;
+
+            _app.Calculation = MsExcel.XlCalculation.xlCalculationManual;
+            foreach (MsExcel.Workbook wb in _app.Workbooks)
+                _children.Add(new ExcelWorkbook(wb));
+        }
 
         private MsExcel.Application _app;
         private List<IWorkbook> _children;
