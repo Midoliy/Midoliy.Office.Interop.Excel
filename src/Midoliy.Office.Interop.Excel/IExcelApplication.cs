@@ -9,11 +9,15 @@ namespace Midoliy.Office.Interop
     {
         AppVisibility Visibility { get; set; }
         int Count { get; }
+        IWorkbook ActiveWorkbook { get; }
+
         IWorkbook this[int index] { get; }
         IWorkbook this[string name] { get; }
 
         IWorkbook Workbooks(int index);
         IWorkbook Workbooks(string name);
+        IWorkbook Select(int index);
+        IWorkbook Select(string name);
 
         IWorkbook BlankWorkbook();
         IWorkbook CreateFrom(string templatePath);

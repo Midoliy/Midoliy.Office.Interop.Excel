@@ -8,6 +8,7 @@ namespace Midoliy.Office.Interop
     public interface IWorkbook : IDisposable, IEnumerable<IWorksheet>
     {
         string Name { get; }
+        IWorksheet ActiveWorksheet { get; }
         IWorksheet this[int index] { get; }
         IWorksheet this[string name] { get; }
 
@@ -16,6 +17,8 @@ namespace Midoliy.Office.Interop
 
         IWorksheet NewSheet();
         IWorksheet NewSheet(string sheetName);
+
+        void Activate();
 
         void Save();
         void SaveAs(string fullpath);

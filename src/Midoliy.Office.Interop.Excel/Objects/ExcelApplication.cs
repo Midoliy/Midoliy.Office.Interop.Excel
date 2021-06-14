@@ -32,6 +32,12 @@ namespace Midoliy.Office.Interop.Objects
             => _children.Count;
 
         /// <summary>
+        /// 現在アクティブになっているワークブックを取得する
+        /// </summary>
+        public IWorkbook ActiveWorkbook
+            => _activebook;
+
+        /// <summary>
         /// 指定したWorkbook名と一致するWorkbookを取得する
         /// </summary>
         /// <param name="name"></param>
@@ -56,7 +62,7 @@ namespace Midoliy.Office.Interop.Objects
             => this[index];
 
         /// <summary>
-        /// 指定したindex位置にあるWorkbookを取得する
+        /// 指定したWorkbook名と一致するWorkbookを取得する
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
@@ -64,12 +70,34 @@ namespace Midoliy.Office.Interop.Objects
             => this[name];
 
         /// <summary>
+        /// 指定したindex位置にあるWorkbookを取得しつつ、Activateする
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public IWorkbook Select(int index)
+        {
+            this[index].Activate();
+            return this[index];
+        }
+
+        /// <summary>
+        /// 指定したWorkbook名と一致するWorkbookを取得しつつ、Activateする
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public IWorkbook Select(string name)
+        {
+            this[name].Activate();
+            return this[name];
+        }
+
+        /// <summary>
         /// 空のブックを作成
         /// </summary>
         /// <returns></returns>
         public IWorkbook BlankWorkbook()
         {
-            var book = new ExcelWorkbook(_app.Workbooks.Add());
+            var book = new ExcelWorkbook(_app.Workbooks.Add(), onActivate: MemorizeActiveBook);
             _app.Calculation = MsExcel.XlCalculation.xlCalculationManual;
             _children.Add(book);
             return book;
@@ -82,7 +110,7 @@ namespace Midoliy.Office.Interop.Objects
         /// <returns></returns>
         public IWorkbook CreateFrom(string templatePath)
         {
-            var book = new ExcelWorkbook(_app.Workbooks.Add(Path.GetFullPath(templatePath)));
+            var book = new ExcelWorkbook(_app.Workbooks.Add(Path.GetFullPath(templatePath)), onActivate: MemorizeActiveBook);
             _app.Calculation = MsExcel.XlCalculation.xlCalculationManual;
             _children.Add(book);
             return book;
@@ -95,7 +123,7 @@ namespace Midoliy.Office.Interop.Objects
         /// <returns></returns>
         public IWorkbook Open(string filePath)
         {
-            var book = new ExcelWorkbook(_app.Workbooks.Open(Path.GetFullPath(filePath)));
+            var book = new ExcelWorkbook(_app.Workbooks.Open(Path.GetFullPath(filePath)), onActivate: MemorizeActiveBook);
             _app.Calculation = MsExcel.XlCalculation.xlCalculationManual;
             _children.Add(book);
             return book;
@@ -115,6 +143,7 @@ namespace Midoliy.Office.Interop.Objects
             _children = new List<IWorkbook>();
             Visibility = AppVisibility.Hidden;
             _disposedValue = false;
+            _activebook = null;
         }
         internal ExcelApplication(MsExcel.Application app, Calculation calculation)
         {
@@ -129,8 +158,12 @@ namespace Midoliy.Office.Interop.Objects
                 _children.Add(new ExcelWorkbook(wb));
         }
 
+        private void MemorizeActiveBook(IWorkbook book)
+            => _activebook = book;
+
         private MsExcel.Application _app;
         private List<IWorkbook> _children;
+        private IWorkbook _activebook;
 
         #region IDisposable Support
         private bool _disposedValue;

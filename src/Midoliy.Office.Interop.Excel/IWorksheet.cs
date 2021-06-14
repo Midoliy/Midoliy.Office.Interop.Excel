@@ -116,6 +116,11 @@ namespace Midoliy.Office.Interop
         IExcelRange Ranges(string begin, string end);
 
         /// <summary>
+        /// シートをアクティブにする
+        /// </summary>
+        void Activate();
+
+        /// <summary>
         /// シートを非表示にする
         /// </summary>
         void Hide();
@@ -135,5 +140,8 @@ namespace Midoliy.Office.Interop
         /// シートを削除する
         /// </summary>
         void Delete();
+
+        void Save();
+        void SaveAs(string fullpath);
     }
 }

@@ -10,8 +10,8 @@ namespace Midoliy.Office.Interop.Objects
     internal class ExcelWorksheet : IWorksheet
     {
         public SheetVisiblity Visibility
-        { 
-            get => (SheetVisiblity)_sheet.Visible; 
+        {
+            get => (SheetVisiblity)_sheet.Visible;
             set => _sheet.Visible = (MsExcel.XlSheetVisibility)value;
         }
 
@@ -21,8 +21,8 @@ namespace Midoliy.Office.Interop.Objects
             set => _sheet.Name = value;
         }
 
-        public IExcelRange this[int row, int col] 
-        { 
+        public IExcelRange this[int row, int col]
+        {
             get
             {
                 if (row < 1 || col < 1)
@@ -34,8 +34,8 @@ namespace Midoliy.Office.Interop.Objects
             }
         }
 
-        public IExcelRange this[string address] 
-        { 
+        public IExcelRange this[string address]
+        {
             get
             {
                 var range = new ExcelRange(_sheet.Range[address]);
@@ -77,6 +77,12 @@ namespace Midoliy.Office.Interop.Objects
         public IExcelRange Ranges(string begin, string end)
             => this[begin, end];
 
+        public void Activate()
+        {
+            _sheet.Activate();
+            _onActivate?.Invoke(this);
+        }
+
         public void Hide()
             => _sheet.Visible = MsExcel.XlSheetVisibility.xlSheetHidden;
 
@@ -89,15 +95,27 @@ namespace Midoliy.Office.Interop.Objects
         public void Delete()
             => _sheet.Delete();
 
-        internal ExcelWorksheet(MsExcel.Worksheet sheet)
+        public void Save() 
+            => _onSave?.Invoke();
+
+        public void SaveAs(string fullpath)
+            => _onSaveAs?.Invoke(fullpath);
+
+        internal ExcelWorksheet(MsExcel.Worksheet sheet, Action onSave = null, Action<string> onSaveAs = null, Action<IWorksheet> onActivate = null)
         {
             _sheet = sheet;
             _trashcan = new List<IExcelRange>();
             _disposedValue = false;
+            _onSave = onSave;
+            _onSaveAs = onSaveAs;
+            _onActivate = onActivate;
         }
 
         private MsExcel.Worksheet _sheet;
         private List<IExcelRange> _trashcan;
+        private Action _onSave;
+        private Action<string> _onSaveAs;
+        private Action<IWorksheet> _onActivate;
 
         #region IDisposable Support
         private bool _disposedValue;
