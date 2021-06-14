@@ -3,8 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
+using MsExcel = Microsoft.Office.Interop.Excel;
 using static Midoliy.Office.Interop.FontStyle;
+using System.Diagnostics;
 
 namespace TestConsole
 {
@@ -61,38 +65,111 @@ namespace TestConsole
             //    app.Workbooks(1).Worksheets(1).Cells("A1").Value = 200;
             //}
 
-            using (var app = Excel.BlankWorkbook())
+            //using (var app = Excel.BlankWorkbook())
+            //{
+            //    app.Visibility = AppVisibility.Visible;
+            //
+            //    var book = app[1];
+            //    var sheet = book[1];
+            //
+            //    // ============================================================================
+            //    //     ↓↓↓↓↓    ver 0.0.5.6 追加分    ↓↓↓↓↓
+            //    //
+            //    var a1k2 = sheet.Ranges("A1:K2");
+            //    a1k2.Value = 100;
+            //
+            //    // 行番号の取得
+            //    sheet["A3"].Value = a1k2.Row;
+            //    // A1:K2 の範囲に a を代入
+            //    a1k2.Rows.Value = "a";
+            //    // 行を非表示
+            //    //a1k2.Rows.Hidden = true;
+            //
+            //    // 列番号の取得
+            //    sheet["A4"].Value = a1k2.Column;
+            //    // A1:K2 の範囲に b を代入
+            //    a1k2.Columns.Value = "b";
+            //    // 列を非表示
+            //    //a1k2.Columns.Hidden = true;
+            //
+            //    // A列の下端セルを取得
+            //    var down = sheet["A1"].End();
+            //    // 1行目の右端セルを取得
+            //    var right = sheet["A1"].End(Direction.Right);
+            //}
+
+
+
+
+
+
+            var ps = Process.GetProcessesByName("Excel");
+            foreach (var p in ps)
             {
-                app.Visibility = AppVisibility.Visible;
-
-                var book = app[1];
-                var sheet = book[1];
-
-                // ============================================================================
-                //     ↓↓↓↓↓    ver 0.0.5.6 追加分    ↓↓↓↓↓
-                //
-                var a1k2 = sheet.Ranges("A1:K2");
-                a1k2.Value = 100;
-
-                // 行番号の取得
-                sheet["A3"].Value = a1k2.Row;
-                // A1:K2 の範囲に a を代入
-                a1k2.Rows.Value = "a";
-                // 行を非表示
-                //a1k2.Rows.Hidden = true;
-
-                // 列番号の取得
-                sheet["A4"].Value = a1k2.Column;
-                // A1:K2 の範囲に b を代入
-                a1k2.Columns.Value = "b";
-                // 列を非表示
-                //a1k2.Columns.Hidden = true;
-
-                // A列の下端セルを取得
-                var down = sheet["A1"].End();
-                // 1行目の右端セルを取得
-                var right = sheet["A1"].End(Direction.Right);
+                Console.WriteLine(p.MainWindowTitle);
+                var hwnd = p.MainWindowHandle;
+                Console.WriteLine($"@ HWND= {hwnd}");
             }
+
+
+            // Query Running Object Table 
+            IRunningObjectTable lRunningObjectTable = null;
+            IEnumMoniker lMonikerList = null;
+
+            try
+            {
+                if (Native.GetRunningObjectTable(0, out lRunningObjectTable) != 0 || lRunningObjectTable == null)
+                {
+                    Console.WriteLine("nothing");
+                    return;
+                }
+
+                // List Monikers
+                lRunningObjectTable.EnumRunning(out lMonikerList);
+
+                // Start Enumeration
+                lMonikerList.Reset();
+
+                // Array used for enumerating Monikers
+                IMoniker[] lMonikerContainer = new IMoniker[1];
+
+                var lPointerFetchedMonikers = IntPtr.Zero;
+
+                // foreach Moniker
+                while (lMonikerList.Next(1, lMonikerContainer, lPointerFetchedMonikers) == 0)
+                {
+                    object lComObject;
+                    lRunningObjectTable.GetObject(lMonikerContainer[0], out lComObject);
+
+                    // Check the object is an Excel workbook
+                    if (lComObject is MsExcel.Workbook)
+                    {
+                        var lExcelWorkbook = (MsExcel.Workbook)lComObject;
+                        var hwnd = lExcelWorkbook.Application.Hwnd;
+                        Console.WriteLine($"# HWND= {hwnd}");
+                    }
+                    if (lComObject != null)
+                        Marshal.ReleaseComObject(lComObject);
+                }
+            }
+            finally
+            {
+                // Release ressources
+                if (lRunningObjectTable != null)
+                    Marshal.ReleaseComObject(lRunningObjectTable);
+                if (lMonikerList != null)
+                    Marshal.ReleaseComObject(lMonikerList);
+            }
+
+
+            Console.WriteLine("end");
+            Console.ReadKey();
         }
+    }
+
+    internal static class Native
+    {
+        [DllImport("ole32.dll")]
+        public static extern int GetRunningObjectTable(int reserved, out IRunningObjectTable prot);
     }
 }

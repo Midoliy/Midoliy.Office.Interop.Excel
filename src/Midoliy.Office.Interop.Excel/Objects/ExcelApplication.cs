@@ -17,6 +17,15 @@ namespace Midoliy.Office.Interop.Objects
         public AppVisibility Visibility { get; set; }
 
         /// <summary>
+        /// Excelの再計算制御の状態
+        /// </summary>
+        public Calculation Calculation
+        {
+            get => (Calculation)_app.Calculation;
+            set => _app.Calculation = (MsExcel.XlCalculation)value;
+        }
+
+        /// <summary>
         /// ブック数
         /// </summary>
         public int Count
@@ -107,7 +116,7 @@ namespace Midoliy.Office.Interop.Objects
             Visibility = AppVisibility.Hidden;
             _disposedValue = false;
         }
-        public ExcelApplication(MsExcel.Application app)
+        internal ExcelApplication(MsExcel.Application app, Calculation calculation)
         {
             _app = app;
             _app.IgnoreRemoteRequests = true;
@@ -115,7 +124,7 @@ namespace Midoliy.Office.Interop.Objects
             _children = new List<IWorkbook>();
             _disposedValue = false;
 
-            _app.Calculation = MsExcel.XlCalculation.xlCalculationManual;
+            _app.Calculation = (MsExcel.XlCalculation)calculation;
             foreach (MsExcel.Workbook wb in _app.Workbooks)
                 _children.Add(new ExcelWorkbook(wb));
         }
