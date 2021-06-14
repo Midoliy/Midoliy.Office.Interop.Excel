@@ -78,7 +78,10 @@ namespace Midoliy.Office.Interop.Objects
             => this[begin, end];
 
         public void Activate()
-            => _sheet.Activate();
+        {
+            _sheet.Activate();
+            _onActivate?.Invoke(this);
+        }
 
         public void Hide()
             => _sheet.Visible = MsExcel.XlSheetVisibility.xlSheetHidden;
@@ -93,24 +96,26 @@ namespace Midoliy.Office.Interop.Objects
             => _sheet.Delete();
 
         public void Save() 
-            => _save?.Invoke();
+            => _onSave?.Invoke();
 
         public void SaveAs(string fullpath)
-            => _saveAs?.Invoke(fullpath);
+            => _onSaveAs?.Invoke(fullpath);
 
-        internal ExcelWorksheet(MsExcel.Worksheet sheet, Action save = null, Action<string> saveAs = null)
+        internal ExcelWorksheet(MsExcel.Worksheet sheet, Action onSave = null, Action<string> onSaveAs = null, Action<IWorksheet> onActivate = null)
         {
             _sheet = sheet;
             _trashcan = new List<IExcelRange>();
             _disposedValue = false;
-            _save = save;
-            _saveAs = saveAs;
+            _onSave = onSave;
+            _onSaveAs = onSaveAs;
+            _onActivate = onActivate;
         }
 
         private MsExcel.Worksheet _sheet;
         private List<IExcelRange> _trashcan;
-        private Action _save;
-        private Action<string> _saveAs;
+        private Action _onSave;
+        private Action<string> _onSaveAs;
+        private Action<IWorksheet> _onActivate;
 
         #region IDisposable Support
         private bool _disposedValue;

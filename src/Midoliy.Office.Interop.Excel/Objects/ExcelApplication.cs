@@ -23,6 +23,12 @@ namespace Midoliy.Office.Interop.Objects
             => _children.Count;
 
         /// <summary>
+        /// 現在アクティブになっているワークブックを取得する
+        /// </summary>
+        public IWorkbook ActiveWorkbook
+            => _activebook;
+
+        /// <summary>
         /// 指定したWorkbook名と一致するWorkbookを取得する
         /// </summary>
         /// <param name="name"></param>
@@ -82,7 +88,7 @@ namespace Midoliy.Office.Interop.Objects
         /// <returns></returns>
         public IWorkbook BlankWorkbook()
         {
-            var book = new ExcelWorkbook(_app.Workbooks.Add());
+            var book = new ExcelWorkbook(_app.Workbooks.Add(), onActivate: MemorizeActiveBook);
             _app.Calculation = MsExcel.XlCalculation.xlCalculationManual;
             _children.Add(book);
             return book;
@@ -95,7 +101,7 @@ namespace Midoliy.Office.Interop.Objects
         /// <returns></returns>
         public IWorkbook CreateFrom(string templatePath)
         {
-            var book = new ExcelWorkbook(_app.Workbooks.Add(Path.GetFullPath(templatePath)));
+            var book = new ExcelWorkbook(_app.Workbooks.Add(Path.GetFullPath(templatePath)), onActivate: MemorizeActiveBook);
             _app.Calculation = MsExcel.XlCalculation.xlCalculationManual;
             _children.Add(book);
             return book;
@@ -108,7 +114,7 @@ namespace Midoliy.Office.Interop.Objects
         /// <returns></returns>
         public IWorkbook Open(string filePath)
         {
-            var book = new ExcelWorkbook(_app.Workbooks.Open(Path.GetFullPath(filePath)));
+            var book = new ExcelWorkbook(_app.Workbooks.Open(Path.GetFullPath(filePath)), onActivate: MemorizeActiveBook);
             _app.Calculation = MsExcel.XlCalculation.xlCalculationManual;
             _children.Add(book);
             return book;
@@ -128,10 +134,15 @@ namespace Midoliy.Office.Interop.Objects
             _children = new List<IWorkbook>();
             Visibility = AppVisibility.Hidden;
             _disposedValue = false;
+            _activebook = null;
         }
+
+        private void MemorizeActiveBook(IWorkbook book)
+            => _activebook = book;
 
         private MsExcel.Application _app;
         private List<IWorkbook> _children;
+        private IWorkbook _activebook;
 
         #region IDisposable Support
         private bool _disposedValue;
