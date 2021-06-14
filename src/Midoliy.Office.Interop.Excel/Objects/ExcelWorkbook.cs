@@ -37,12 +37,15 @@ namespace Midoliy.Office.Interop.Objects
         {
             if (_children.Any(c => c.Name == sheetName))
                 throw new AlreadyExistsException(sheetName);
-
+            
             var sheet = NewSheet();
             sheet.Name = sheetName;
             _children.Add(sheet);
             return sheet;
         }
+
+        public void Activate()
+            => _book.Activate();
 
         public void Save()
             => _book.Save();

@@ -17,6 +17,8 @@ namespace Midoliy.Office.Interop
         IWorksheet NewSheet();
         IWorksheet NewSheet(string sheetName);
 
+        void Activate();
+
         void Save();
         void SaveAs(string fullpath);
         void Close();

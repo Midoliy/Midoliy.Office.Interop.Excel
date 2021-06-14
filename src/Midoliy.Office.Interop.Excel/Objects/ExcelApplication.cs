@@ -47,12 +47,34 @@ namespace Midoliy.Office.Interop.Objects
             => this[index];
 
         /// <summary>
-        /// 指定したindex位置にあるWorkbookを取得する
+        /// 指定したWorkbook名と一致するWorkbookを取得する
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
         public IWorkbook Workbooks(string name)
             => this[name];
+
+        /// <summary>
+        /// 指定したindex位置にあるWorkbookを取得しつつ、Activateする
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public IWorkbook Select(int index)
+        {
+            this[index].Activate();
+            return this[index];
+        }
+
+        /// <summary>
+        /// 指定したWorkbook名と一致するWorkbookを取得しつつ、Activateする
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public IWorkbook Select(string name)
+        {
+            this[name].Activate();
+            return this[name];
+        }
 
         /// <summary>
         /// 空のブックを作成

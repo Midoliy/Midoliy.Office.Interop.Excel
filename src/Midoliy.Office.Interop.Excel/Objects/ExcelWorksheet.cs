@@ -77,6 +77,9 @@ namespace Midoliy.Office.Interop.Objects
         public IExcelRange Ranges(string begin, string end)
             => this[begin, end];
 
+        public void Activate()
+            => _sheet.Activate();
+
         public void Hide()
             => _sheet.Visible = MsExcel.XlSheetVisibility.xlSheetHidden;
 
