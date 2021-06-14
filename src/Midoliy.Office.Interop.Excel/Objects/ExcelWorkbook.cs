@@ -28,7 +28,7 @@ namespace Midoliy.Office.Interop.Objects
 
         public IWorksheet NewSheet()
         {
-            var sheet = new ExcelWorksheet(_book.Sheets.Add(Count: 1) as MsExcel.Worksheet);
+            var sheet = new ExcelWorksheet(_book.Sheets.Add(Count: 1) as MsExcel.Worksheet, Save, SaveAs);
             _children.Add(sheet);
             return sheet;
         }
@@ -64,7 +64,7 @@ namespace Midoliy.Office.Interop.Objects
             _book = book;
             _children = new List<IWorksheet>();
             foreach (MsExcel.Worksheet sheet in _book.Worksheets)
-                _children.Add(new ExcelWorksheet(sheet));
+                _children.Add(new ExcelWorksheet(sheet, Save, SaveAs));
             _disposedValue = false;
         }
 
