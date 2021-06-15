@@ -10,11 +10,16 @@ namespace Midoliy.Office.Interop
     {
         dynamic Value { get; set; }
         dynamic Formula { get; set; }
+        string Address { get; }
+
         int Row { get; }
         IExcelRows Rows { get; }
         int Column { get; }
         IExcelColumns Columns { get; }
         IRangeFont Font { get; }
+
+        void Activate();
+        void Select();
 
         /// <summary>
         /// クリップボードにコピーする

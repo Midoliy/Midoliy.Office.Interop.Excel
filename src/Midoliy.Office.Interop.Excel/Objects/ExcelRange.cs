@@ -27,6 +27,9 @@ namespace Midoliy.Office.Interop.Objects
             set => _range.Hidden = value;
         }
 
+        public string Address
+            => _range.Address;
+
         public int Row
             => _range.Row;
 
@@ -41,6 +44,12 @@ namespace Midoliy.Office.Interop.Objects
 
         public IRangeFont Font
             => new RangeFont(_range.Font);
+        
+        public void Activate()
+            => _range.Activate();
+
+        public void Select()
+            => _range.Select();
 
         public bool Copy()
             => (bool)_range.Copy();

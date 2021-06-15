@@ -14,9 +14,6 @@ namespace Midoliy.Office.Interop.Objects
         public string Name 
             => _book.Name;
 
-        public IWorksheet ActiveWorksheet
-            => _activeSheet;
-
         public IWorksheet this[string name] 
             => _children.First(c => c.Name == name);
 
@@ -31,7 +28,7 @@ namespace Midoliy.Office.Interop.Objects
 
         public IWorksheet NewSheet()
         {
-            var sheet = new ExcelWorksheet(_book.Sheets.Add(Count: 1) as MsExcel.Worksheet, onSave: Save, onSaveAs: SaveAs, onActivate: MemorizeActiveSheet);
+            var sheet = new ExcelWorksheet(_book.Sheets.Add(Count: 1) as MsExcel.Worksheet, onSave: Save, onSaveAs: SaveAs);
             _children.Add(sheet);
             return sheet;
         }
@@ -73,18 +70,13 @@ namespace Midoliy.Office.Interop.Objects
             _book = book;
             _children = new List<IWorksheet>();
             foreach (MsExcel.Worksheet sheet in _book.Worksheets)
-                _children.Add(new ExcelWorksheet(sheet, onSave: Save, onSaveAs: SaveAs, onActivate: MemorizeActiveSheet));
+                _children.Add(new ExcelWorksheet(sheet, onSave: Save, onSaveAs: SaveAs));
             _disposedValue = false;
-            _activeSheet = null;
             _onActivate = onActivate;
         }
 
-        private void MemorizeActiveSheet(IWorksheet sheet)
-            => _activeSheet = sheet;
-
         private MsExcel.Workbook _book;
         private List<IWorksheet> _children;
-        private IWorksheet _activeSheet;
         private Action<IWorkbook> _onActivate;
 
         #region IDisposable Support

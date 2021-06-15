@@ -78,10 +78,10 @@ namespace Midoliy.Office.Interop.Objects
             => this[begin, end];
 
         public void Activate()
-        {
-            _sheet.Activate();
-            _onActivate?.Invoke(this);
-        }
+            => _sheet.Activate();
+
+        public void Select()
+            => _sheet.Select();
 
         public void Hide()
             => _sheet.Visible = MsExcel.XlSheetVisibility.xlSheetHidden;
@@ -95,27 +95,25 @@ namespace Midoliy.Office.Interop.Objects
         public void Delete()
             => _sheet.Delete();
 
-        public void Save() 
+        public void Save()
             => _onSave?.Invoke();
 
         public void SaveAs(string fullpath)
             => _onSaveAs?.Invoke(fullpath);
 
-        internal ExcelWorksheet(MsExcel.Worksheet sheet, Action onSave = null, Action<string> onSaveAs = null, Action<IWorksheet> onActivate = null)
+        internal ExcelWorksheet(MsExcel.Worksheet sheet, Action onSave = null, Action<string> onSaveAs = null)
         {
             _sheet = sheet;
             _trashcan = new List<IExcelRange>();
             _disposedValue = false;
             _onSave = onSave;
             _onSaveAs = onSaveAs;
-            _onActivate = onActivate;
         }
 
         private MsExcel.Worksheet _sheet;
         private List<IExcelRange> _trashcan;
         private Action _onSave;
         private Action<string> _onSaveAs;
-        private Action<IWorksheet> _onActivate;
 
         #region IDisposable Support
         private bool _disposedValue;
@@ -130,12 +128,12 @@ namespace Midoliy.Office.Interop.Objects
                 foreach (var range in _trashcan)
                     range?.Dispose();
 
-                if(_sheet != null)
+                if (_sheet != null)
                 {
                     try { while (0 < Marshal.ReleaseComObject(_sheet)) { } } catch { }
                     _sheet = null;
                 }
-                
+
                 GC.Collect();
             }
 

@@ -121,6 +121,11 @@ namespace Midoliy.Office.Interop
         void Activate();
 
         /// <summary>
+        /// シートを複数アクティブにする
+        /// </summary>
+        void Select();
+
+        /// <summary>
         /// シートを非表示にする
         /// </summary>
         void Hide();
