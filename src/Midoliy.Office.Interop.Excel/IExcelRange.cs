@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Midoliy.Office.Interop
 {
@@ -8,6 +9,10 @@ namespace Midoliy.Office.Interop
 
     public interface IExcelRange : IDisposable
     {
+        int Height { get; }
+        int Width { get; }
+        int RowHeight { get; }
+        int ColumnWidth { get; }
         dynamic Value { get; set; }
         dynamic Formula { get; set; }
         string Address { get; }
@@ -61,5 +66,7 @@ namespace Midoliy.Office.Interop
         IExcelRange End(Direction direction = Direction.Down);
 
         void Clear();
+
+        IEnumerator<IExcelRange> GetEnumerator();
     }
 }

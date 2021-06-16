@@ -98,6 +98,37 @@ namespace TestConsole
             //    var right = sheet["A1"].End(Direction.Right);
             //}
 
+
+            var ps = Excel.EnumerateProcess();
+            using (var excel = Excel.Attach((int)ps[0].MainWindowHandle))
+            {
+                var sheet = excel[1][1];
+                sheet["A1:A3"].Value = 100;
+                sheet["B1:B3"].Value = 200;
+
+                var range = sheet["A1:B3"];
+
+                foreach (var row in sheet["A1:B3"].Rows)
+                {
+                    foreach (var cell in row)
+                    {
+                        Console.Write(cell.Value + " ");
+                    }
+                    Console.WriteLine();
+                }
+                Console.WriteLine();
+
+                foreach (var column in sheet["A1:B3"].Columns)
+                {
+                    foreach (var cell in column)
+                    {
+                        Console.Write(cell.Value + " ");
+                    }
+                    Console.WriteLine();
+                }
+            }
+
+            Console.ReadKey();
         }
     }
 

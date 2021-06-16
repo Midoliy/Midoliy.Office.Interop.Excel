@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -7,8 +8,12 @@ using MsExcel = Microsoft.Office.Interop.Excel;
 
 namespace Midoliy.Office.Interop.Objects
 {
-    internal struct ExcelRange : IExcelRange, IExcelRows, IExcelColumns
+    internal struct ExcelRange : IExcelRange, IExcelRow, IExcelRows, IExcelColumns, IExcelColumn
     {
+        public int Height => (int)_range.Height;
+        public int Width => (int)_range.Width;
+        public int RowHeight => (int)_range.RowHeight;
+        public int ColumnWidth => (int)_range.ColumnWidth;
         public dynamic Value
         {
             get => _range.Value;
@@ -34,13 +39,13 @@ namespace Midoliy.Office.Interop.Objects
             => _range.Row;
 
         public IExcelRows Rows
-            => new ExcelRange(_range.Rows);
+            => new ExcelRange(_range.Rows, _registerAutoDispose);
 
         public int Column
             => _range.Column;
 
         public IExcelColumns Columns
-            => new ExcelRange(_range.Columns);
+            => new ExcelRange(_range.Columns, _registerAutoDispose);
 
         public IRangeFont Font
             => new RangeFont(_range.Font);
@@ -76,15 +81,17 @@ namespace Midoliy.Office.Interop.Objects
             => _range.Clear();
 
         public IExcelRange End(Direction direction = Direction.Down)
-            => new ExcelRange(_range.End[(MsExcel.XlDirection)direction]);
+            => new ExcelRange(_range.End[(MsExcel.XlDirection)direction], _registerAutoDispose);
 
-        internal ExcelRange(MsExcel.Range range)
+        internal ExcelRange(MsExcel.Range range, Action<IExcelRange> registerAutoDispose)
         {
             _range = range;
             _disposedValue = false;
+            _registerAutoDispose = registerAutoDispose;
         }
 
         private MsExcel.Range _range;
+        private Action<IExcelRange> _registerAutoDispose;
 
         #region IDisposable Support
         private bool _disposedValue;
@@ -106,6 +113,56 @@ namespace Midoliy.Office.Interop.Objects
 
         public void Dispose()
             => Dispose(true);
+
         #endregion
+
+        IEnumerator<IExcelRange> IExcelRange.GetEnumerator()
+        {
+            var autoDispose = _registerAutoDispose;
+            return _range
+                .Cast<MsExcel.Range>()
+                .Select(r => new ExcelRange(r, autoDispose) as IExcelRange)
+                .GetEnumerator();
+        }
+
+        IEnumerator<IExcelRow> IExcelRows.GetEnumerator()
+        {
+            var autoDispose = _registerAutoDispose;
+            return _range
+                .Rows
+                .Cast<MsExcel.Range>()
+                .Select(r => new ExcelRange(r, autoDispose) as IExcelRow)
+                .GetEnumerator();
+        }
+
+        IEnumerator<IExcelRange> IExcelRow.GetEnumerator()
+        {
+            var autoDispose = _registerAutoDispose;
+            return _range
+                .Columns
+                .Cast<MsExcel.Range>()
+                .Select(r => new ExcelRange(r, autoDispose) as IExcelRange)
+                .GetEnumerator();
+        }
+
+        IEnumerator<IExcelColumn> IExcelColumns.GetEnumerator()
+        {
+            var autoDispose = _registerAutoDispose;
+            return _range
+                .Columns
+                .Cast<MsExcel.Range>()
+                .Select(r => new ExcelRange(r, autoDispose) as IExcelColumn)
+                .GetEnumerator();
+        }
+
+        IEnumerator<IExcelRange> IExcelColumn.GetEnumerator()
+        {
+            var autoDispose = _registerAutoDispose;
+            return _range
+                .Rows
+                .Cast<MsExcel.Range>()
+                .Select(r => new ExcelRange(r, autoDispose) as IExcelRange)
+                .GetEnumerator();
+        }
     }
 }
