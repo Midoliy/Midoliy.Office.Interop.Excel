@@ -20,5 +20,6 @@ namespace Midoliy.Office.Interop
         bool Strikethrough { get; set; }
         bool Subscript { get; set; }
         bool Superscript { get; set; }
+        Underline Underline { get; set; }
     }
 }

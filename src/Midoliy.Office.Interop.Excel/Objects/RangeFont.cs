@@ -7,7 +7,7 @@ using MsExcel = Microsoft.Office.Interop.Excel;
 
 namespace Midoliy.Office.Interop.Objects
 {
-    public class RangeFont : IRangeFont
+    internal class RangeFont : IRangeFont
     {
         public double Size { get => (double)_font.Size; set => _font.Size = value; }
         public Color Color
@@ -133,6 +133,11 @@ namespace Midoliy.Office.Interop.Objects
         {
             get => (bool)_font.Superscript;
             set => _font.Superscript = value;
+        }
+        public Underline Underline
+        {
+            get => (Underline)_font.Underline;
+            set => _font.Underline = value;
         }
 
         public RangeFont(MsExcel.Font font) => _font = font;
