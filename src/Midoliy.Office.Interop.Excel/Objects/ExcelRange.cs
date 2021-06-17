@@ -39,6 +39,7 @@ namespace Midoliy.Office.Interop.Objects
         public IExcelColumns Columns => new ExcelRange(_range.Columns, _registerAutoDispose);
         public IRangeFont Font => new RangeFont(_range.Font);
         public IInterior Interior => new Interior(_range.Interior);
+        public IBorders Borders => new Borders(_range.Borders);
 
         public void Activate() => _range.Activate();
         public void Select() => _range.Select();

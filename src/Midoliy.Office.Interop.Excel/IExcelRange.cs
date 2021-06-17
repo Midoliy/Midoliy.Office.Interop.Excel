@@ -23,6 +23,7 @@ namespace Midoliy.Office.Interop
         IExcelColumns Columns { get; }
         IRangeFont Font { get; }
         IInterior Interior { get; }
+        IBorders Borders { get; }
 
         void Activate();
         void Select();
