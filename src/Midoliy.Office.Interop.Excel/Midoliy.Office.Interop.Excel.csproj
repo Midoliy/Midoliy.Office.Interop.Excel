@@ -11,11 +11,11 @@
     <PackageId>Midoliy.Office.Interop.Excel</PackageId>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.6.10</Version>
+    <Version>0.0.6.12</Version>
     <Company />
     <PackageIcon>midoliy_logo.png</PackageIcon>
-    <AssemblyVersion>0.0.6.10</AssemblyVersion>
-    <FileVersion>0.0.6.10</FileVersion>
+    <AssemblyVersion>0.0.6.12</AssemblyVersion>
+    <FileVersion>0.0.6.12</FileVersion>
     <PackageProjectUrl>https://github.com/Midoliy/Midoliy.Office.Interop.Excel</PackageProjectUrl>
     <PackageTags>Midoliy,Office,Interop,Excel,COM</PackageTags>
   </PropertyGroup>
@@ -58,6 +58,22 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='net40'">
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='net452'">
+      <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='net461'">
+      <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='net472'">
+      <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='net48'">
+      <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
 </Project>

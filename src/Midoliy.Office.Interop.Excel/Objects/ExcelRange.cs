@@ -32,38 +32,23 @@ namespace Midoliy.Office.Interop.Objects
             set => _range.Hidden = value;
         }
 
-        public string Address
-            => _range.Address;
+        public string Address => _range.Address;
+        public int Row => _range.Row;
+        public IExcelRows Rows => new ExcelRange(_range.Rows, _registerAutoDispose);
+        public int Column => _range.Column;
+        public IExcelColumns Columns => new ExcelRange(_range.Columns, _registerAutoDispose);
+        public IRangeFont Font => new RangeFont(_range.Font);
+        public IInterior Interior => new Interior(_range.Interior);
 
-        public int Row
-            => _range.Row;
-
-        public IExcelRows Rows
-            => new ExcelRange(_range.Rows, _registerAutoDispose);
-
-        public int Column
-            => _range.Column;
-
-        public IExcelColumns Columns
-            => new ExcelRange(_range.Columns, _registerAutoDispose);
-
-        public IRangeFont Font
-            => new RangeFont(_range.Font);
-        
-        public void Activate()
-            => _range.Activate();
-
-        public void Select()
-            => _range.Select();
-
-        public bool Copy()
-            => (bool)_range.Copy();
+        public void Activate() => _range.Activate();
+        public void Select() => _range.Select();
+        public bool Copy() => (bool)_range.Copy();
 
         public bool Paste(IExcelRange from, PasteType type, PasteOperation operation, bool skipBlanks, bool transpose)
         {
             if (!from.Copy())
                 return false;
-
+            
             return (bool)_range.PasteSpecial(
                 Paste: (MsExcel.XlPasteType)type,
                 Operation: (MsExcel.XlPasteSpecialOperation)operation,
@@ -77,11 +62,9 @@ namespace Midoliy.Office.Interop.Objects
         public bool Delete(DeleteShiftDirection direction)
             => (bool)_range.Delete((MsExcel.XlDeleteShiftDirection)direction);
 
-        public void Clear()
-            => _range.Clear();
+        public void Clear() => _range.Clear();
 
-        public IExcelRange End(Direction direction = Direction.Down)
-            => new ExcelRange(_range.End[(MsExcel.XlDirection)direction], _registerAutoDispose);
+        public IExcelRange End(Direction direction = Direction.Down) => new ExcelRange(_range.End[(MsExcel.XlDirection)direction], _registerAutoDispose);
 
         internal ExcelRange(MsExcel.Range range, Action<IExcelRange> registerAutoDispose)
         {
