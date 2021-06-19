@@ -6,13 +6,12 @@ using System.Drawing;
 
 namespace Midoliy.Office.Interop
 {
-    public interface IInterior
+    public interface IBorder
     {
         Color Color { get; set; }
-        Pattern Pattern { get; set; }
-        bool InvertIfNegative { get; set; }
         ThemeColor ThemeColor { get; set; }
         Tint Tint { get; set; }
-        IGradient Gradient { get; }
+        LineStyle LineStyle { get; set; }
+        BorderWeight Weight { get; set; }
     }
 }
