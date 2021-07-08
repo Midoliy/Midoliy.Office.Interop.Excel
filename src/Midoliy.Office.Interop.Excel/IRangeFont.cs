@@ -8,6 +8,7 @@ namespace Midoliy.Office.Interop
 {
     public interface IRangeFont
     {
+        string Name { get; set; }
         double Size { get; set; }
         Color Color { get; set; }
         ThemeColor ThemeColor { get; set; }
