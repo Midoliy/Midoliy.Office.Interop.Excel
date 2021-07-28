@@ -28,7 +28,7 @@ namespace Midoliy.Office.Interop.Objects
 
         public IWorksheet NewSheet()
         {
-            var sheet = new ExcelWorksheet(_book.Sheets.Add(Count: 1) as MsExcel.Worksheet, onSave: Save, onSaveAs: SaveAs);
+            var sheet = new ExcelWorksheet(_book.Sheets.Add(After: _book.Sheets[_book.Sheets.Count]) as MsExcel.Worksheet, onSave: Save, onSaveAs: SaveAs);
             _children.Add(sheet);
             return sheet;
         }

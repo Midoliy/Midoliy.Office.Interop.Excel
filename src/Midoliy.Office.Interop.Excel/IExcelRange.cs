@@ -35,6 +35,16 @@ namespace Midoliy.Office.Interop
         bool Copy();
 
         /// <summary>
+        /// 現在のセルにクリップボードのデータをペーストする
+        /// </summary>
+        /// <param name="type">貼り付け形式</param>
+        /// <param name="operation">演算方法</param>
+        /// <param name="skipBlanks">空白セルを無視するか</param>
+        /// <param name="transpose">行列を入れ替えるか</param>
+        /// <returns>true: 処理成功</returns>
+        bool Paste(PasteType type = PasteType.All, PasteOperation operation = PasteOperation.None, bool skipBlanks = false, bool transpose = false);
+
+        /// <summary>
         /// 対象のセルをコピー＆ペーストする
         /// </summary>
         /// <param name="from">コピー元セル情報</param>
@@ -43,7 +53,7 @@ namespace Midoliy.Office.Interop
         /// <param name="skipBlanks">空白セルを無視するか</param>
         /// <param name="transpose">行列を入れ替えるか</param>
         /// <returns>true: 処理成功</returns>
-        bool Paste(IExcelRange from, PasteType type = PasteType.All, PasteOperation operation = PasteOperation.None, bool skipBlanks = false, bool transpose = false);
+        bool CopyAndPaste(IExcelRange from, PasteType type = PasteType.All, PasteOperation operation = PasteOperation.None, bool skipBlanks = false, bool transpose = false);
 
         /// <summary>
         /// 対象のセルまたは列範囲にセル/列を挿入する

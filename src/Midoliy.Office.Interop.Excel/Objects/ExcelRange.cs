@@ -45,7 +45,16 @@ namespace Midoliy.Office.Interop.Objects
         public void Select() => _range.Select();
         public bool Copy() => (bool)_range.Copy();
 
-        public bool Paste(IExcelRange from, PasteType type, PasteOperation operation, bool skipBlanks, bool transpose)
+        public bool Paste(PasteType type, PasteOperation operation, bool skipBlanks, bool transpose)
+        {
+            return (bool)_range.PasteSpecial(
+                Paste: (MsExcel.XlPasteType)type,
+                Operation: (MsExcel.XlPasteSpecialOperation)operation,
+                SkipBlanks: skipBlanks,
+                Transpose: transpose);
+        }
+
+        public bool CopyAndPaste(IExcelRange from, PasteType type, PasteOperation operation, bool skipBlanks, bool transpose)
         {
             if (!from.Copy())
                 return false;

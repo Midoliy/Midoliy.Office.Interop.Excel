@@ -11,11 +11,11 @@
     <PackageId>Midoliy.Office.Interop.Excel</PackageId>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.6.14</Version>
+    <Version>0.0.6.21</Version>
     <Company />
     <PackageIcon>midoliy_logo.png</PackageIcon>
-    <AssemblyVersion>0.0.6.14</AssemblyVersion>
-    <FileVersion>0.0.6.14</FileVersion>
+    <AssemblyVersion>0.0.6.21</AssemblyVersion>
+    <FileVersion>0.0.6.21</FileVersion>
     <PackageProjectUrl>https://github.com/Midoliy/Midoliy.Office.Interop.Excel</PackageProjectUrl>
     <PackageTags>Midoliy,Office,Interop,Excel,COM</PackageTags>
   </PropertyGroup>
