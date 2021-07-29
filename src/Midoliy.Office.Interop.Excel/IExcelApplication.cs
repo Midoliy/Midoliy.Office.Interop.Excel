@@ -8,6 +8,7 @@ namespace Midoliy.Office.Interop
     public interface IExcelApplication : IDisposable, IEnumerable<IWorkbook>
     {
         AppVisibility Visibility { get; set; }
+        Calculation Calculation { get; set; }
         int Count { get; }
 
         IWorkbook this[int index] { get; }

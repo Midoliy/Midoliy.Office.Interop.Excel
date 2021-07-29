@@ -47,23 +47,23 @@ namespace Midoliy.Office.Interop.Objects
         public IExcelRange this[string begin, string end]
             => this[$"{begin}:{end}"];
 
-        public IExcelRange Rows(int row)
-            => Rows(row, row);
+        public IExcelRow Rows(int row)
+            => (IExcelRow)Rows(row, row);
 
-        public IExcelRange Rows(int begin, int end)
-            => Ranges($"{begin}:{end}");
+        public IExcelRows Rows(int begin, int end)
+            => (IExcelRows)Ranges($"{begin}:{end}");
 
-        public IExcelRange Columns(int col)
+        public IExcelColumn Columns(int col)
+            => (IExcelColumn)Columns(col, col);
+
+        public IExcelColumns Columns(int begin, int end)
+            => Columns(begin.ToColumnName(), end.ToColumnName());
+
+        public IExcelColumns Columns(string col)
             => Columns(col, col);
 
-        public IExcelRange Columns(int begin, int end)
-            => Columns(begin.ToString(), end.ToString());
-
-        public IExcelRange Columns(string col)
-            => Columns(col, col);
-
-        public IExcelRange Columns(string begin, string end)
-            => Ranges($"{begin}:{end}");
+        public IExcelColumns Columns(string begin, string end)
+            => (IExcelColumns)Ranges($"{begin}:{end}");
 
         public IExcelRange Cells(int row, int col)
             => this[row, col];

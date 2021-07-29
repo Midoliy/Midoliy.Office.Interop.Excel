@@ -45,7 +45,7 @@ namespace Midoliy.Office.Interop
         /// </summary>
         /// <param name="row">行番号：1始まり</param>
         /// <returns>選択した行オブジェクト</returns>
-        IExcelRange Rows(int row);
+        IExcelRow Rows(int row);
 
         /// <summary>
         /// 行選択（複数行）
@@ -53,14 +53,14 @@ namespace Midoliy.Office.Interop
         /// <param name="begin">開始行番号：1始まり</param>
         /// <param name="end">終了行番号：1始まり</param>
         /// <returns>選択した行オブジェクト</returns>
-        IExcelRange Rows(int begin, int end);
+        IExcelRows Rows(int begin, int end);
 
         /// <summary>
         /// 列選択
         /// </summary>
         /// <param name="col">列番号：1始まり</param>
         /// <returns>選択した列オブジェクト</returns>
-        IExcelRange Columns(int col);
+        IExcelColumn Columns(int col);
 
         /// <summary>
         /// 列選択（複数列）
@@ -68,14 +68,14 @@ namespace Midoliy.Office.Interop
         /// <param name="begin">開始列番号：1始まり</param>
         /// <param name="end">終了列番号：1始まり</param>
         /// <returns>選択した列オブジェクト</returns>
-        IExcelRange Columns(int begin, int end);
+        IExcelColumns Columns(int begin, int end);
 
         /// <summary>
         /// 列選択
         /// </summary>
         /// <param name="col">列番号：A始まり</param>
         /// <returns>選択した列オブジェクト</returns>
-        IExcelRange Columns(string col);
+        IExcelColumns Columns(string col);
 
         /// <summary>
         /// 列選択（複数列）
@@ -83,7 +83,7 @@ namespace Midoliy.Office.Interop
         /// <param name="begin">開始列番号：A始まり</param>
         /// <param name="end">終了列番号：A始まり</param>
         /// <returns>選択した列オブジェクト</returns>
-        IExcelRange Columns(string begin, string end);
+        IExcelColumns Columns(string begin, string end);
 
         /// <summary>
         /// セル選択

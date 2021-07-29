@@ -7,6 +7,7 @@ namespace Midoliy.Office.Interop
         bool Hidden { get; set; }
         new IEnumerator<IExcelRange> GetEnumerator();
     }
+
     public interface IExcelRows : IExcelRange
     {
         bool Hidden { get; set; }

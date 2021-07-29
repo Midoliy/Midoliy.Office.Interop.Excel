@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using Microsoft.Office.Interop.Excel;
 using MsExcel = Microsoft.Office.Interop.Excel;
 
 namespace Midoliy.Office.Interop.Objects
@@ -12,38 +13,75 @@ namespace Midoliy.Office.Interop.Objects
     {
         public int Height => (int)_range.Height;
         public int Width => (int)_range.Width;
-        public int RowHeight => (int)_range.RowHeight;
-        public int ColumnWidth => (int)_range.ColumnWidth;
+        public int RowHeight
+        {
+            get => (int) _range.RowHeight;
+            set => _range.RowHeight = value;
+        }
+        public int ColumnWidth
+        {
+            get => (int)_range.ColumnWidth;
+            set => _range.ColumnWidth = value;
+        }
         public dynamic Value
         {
             get => _range.Value;
             set => _range.Value = value;
         }
-
         public dynamic Formula
         {
             get => _range.Formula;
             set => _range.Formula = value;
         }
-
         public bool Hidden
         {
             get => (bool)_range.Hidden;
             set => _range.Hidden = value;
         }
+        public HorizontalAlignment HorizontalAlignment
+        {
+            get => (HorizontalAlignment)_range.HorizontalAlignment;
+            set => _range.HorizontalAlignment = value;
+        }
+        public VerticalAlignment VerticalAlignment
+        {
+            get => (VerticalAlignment)_range.VerticalAlignment;
+            set => _range.VerticalAlignment = value;
+        }
+        public bool WrapText
+        {
+            get => (bool)_range.WrapText;
+            set => _range.WrapText = value;
+        }
+        public bool ShrinkToFit 
+        { 
+            get => (bool)_range.ShrinkToFit;
+            set => _range.ShrinkToFit = value;
+        }
+        public int Orientation
+        {
+            get => (int)_range.Orientation;
+            set => _range.Orientation = value;
+        }
 
         public string Address => _range.Address;
         public int Row => _range.Row;
         public IExcelRows Rows => new ExcelRange(_range.Rows, _registerAutoDispose);
+        public IExcelRows EntireRow => new ExcelRange(_range.EntireRow, _registerAutoDispose);
         public int Column => _range.Column;
         public IExcelColumns Columns => new ExcelRange(_range.Columns, _registerAutoDispose);
+        public IExcelColumns EntireColumn => new ExcelRange(_range.EntireColumn, _registerAutoDispose);
         public IRangeFont Font => new RangeFont(_range.Font);
         public IInterior Interior => new Interior(_range.Interior);
         public IBorders Borders => new Borders(_range.Borders);
 
+        public void AutoFit() => _range.AutoFit();
         public void Activate() => _range.Activate();
         public void Select() => _range.Select();
         public bool Copy() => (bool)_range.Copy();
+
+        public void Merge(bool across = false) => _range.Merge(across);
+        public void UnMerge() => _range.UnMerge();
 
         public bool Paste(PasteType type, PasteOperation operation, bool skipBlanks, bool transpose)
         {

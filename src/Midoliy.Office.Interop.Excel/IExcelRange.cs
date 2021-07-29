@@ -11,22 +11,41 @@ namespace Midoliy.Office.Interop
     {
         int Height { get; }
         int Width { get; }
-        int RowHeight { get; }
-        int ColumnWidth { get; }
+        int RowHeight { get; set; }
+        int ColumnWidth { get; set; }
         dynamic Value { get; set; }
         dynamic Formula { get; set; }
         string Address { get; }
+        /// <summary>文字の水平位置.</summary>
+        HorizontalAlignment HorizontalAlignment { get; set; }
+        /// <summary>文字の垂直位置.</summary>
+        VerticalAlignment VerticalAlignment { get; set; }
+        /// <summary>折り返して全体を表示.</summary>
+        bool WrapText { get; set; }
+        /// <summary>縮小して全体を表示.</summary>
+        bool ShrinkToFit { get; set; }
+        /// <summary>文字の方向. -90 ~ 90の間で指定.</summary>
+        int Orientation { get; set; }
 
         int Row { get; }
         IExcelRows Rows { get; }
+        IExcelRows EntireRow { get; }
         int Column { get; }
         IExcelColumns Columns { get; }
+        IExcelColumns EntireColumn { get; }
         IRangeFont Font { get; }
         IInterior Interior { get; }
         IBorders Borders { get; }
 
+        void AutoFit();
         void Activate();
         void Select();
+
+        /// <summary>セルの結合.</summary>
+        /// <param name="across">true: 行ごとに結合する.</param>
+        void Merge(bool across = false);
+        /// <summary>セルの結合を解除.</summary>
+        void UnMerge();
 
         /// <summary>
         /// クリップボードにコピーする
