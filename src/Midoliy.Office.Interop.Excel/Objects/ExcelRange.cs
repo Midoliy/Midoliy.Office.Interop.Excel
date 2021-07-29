@@ -63,6 +63,11 @@ namespace Midoliy.Office.Interop.Objects
             get => (int)_range.Orientation;
             set => _range.Orientation = value;
         }
+        public string Format
+        {
+            get => (string)_range.NumberFormatLocal;
+            set => _range.NumberFormatLocal = value;
+        }
 
         public string Address => _range.Address;
         public int Row => _range.Row;

@@ -26,6 +26,8 @@ namespace Midoliy.Office.Interop
         bool ShrinkToFit { get; set; }
         /// <summary>文字の方向. -90 ~ 90の間で指定.</summary>
         int Orientation { get; set; }
+        /// <summary>セルの表示形式を指定.</summary>
+        string Format { get; set; }
 
         int Row { get; }
         IExcelRows Rows { get; }
