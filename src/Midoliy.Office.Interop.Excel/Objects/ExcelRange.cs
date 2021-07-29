@@ -9,10 +9,12 @@ using MsExcel = Microsoft.Office.Interop.Excel;
 
 namespace Midoliy.Office.Interop.Objects
 {
-    internal struct ExcelRange : IExcelRange, IExcelRow, IExcelRows, IExcelColumns, IExcelColumn
+    internal readonly struct ExcelRange : IExcelRange, IExcelRow, IExcelRows, IExcelColumns, IExcelColumn
     {
         public int Height => (int)_range.Height;
         public int Width => (int)_range.Width;
+        public double Top => (double)_range.Top;
+        public double Left => (double)_range.Left;
         public int RowHeight
         {
             get => (int) _range.RowHeight;
@@ -71,11 +73,11 @@ namespace Midoliy.Office.Interop.Objects
 
         public string Address => _range.Address;
         public int Row => _range.Row;
-        public IExcelRows Rows => new ExcelRange(_range.Rows, _registerAutoDispose);
-        public IExcelRows EntireRow => new ExcelRange(_range.EntireRow, _registerAutoDispose);
+        public IExcelRows Rows => new ExcelRange(_range.Rows/*, _registerAutoDispose*/);
+        public IExcelRows EntireRow => new ExcelRange(_range.EntireRow/*, _registerAutoDispose*/);
         public int Column => _range.Column;
-        public IExcelColumns Columns => new ExcelRange(_range.Columns, _registerAutoDispose);
-        public IExcelColumns EntireColumn => new ExcelRange(_range.EntireColumn, _registerAutoDispose);
+        public IExcelColumns Columns => new ExcelRange(_range.Columns/*, _registerAutoDispose*/);
+        public IExcelColumns EntireColumn => new ExcelRange(_range.EntireColumn/*, _registerAutoDispose*/);
         public IRangeFont Font => new RangeFont(_range.Font);
         public IInterior Interior => new Interior(_range.Interior);
         public IBorders Borders => new Borders(_range.Borders);
@@ -117,87 +119,87 @@ namespace Midoliy.Office.Interop.Objects
 
         public void Clear() => _range.Clear();
 
-        public IExcelRange End(Direction direction = Direction.Down) => new ExcelRange(_range.End[(MsExcel.XlDirection)direction], _registerAutoDispose);
+        public IExcelRange End(Direction direction = Direction.Down) => new ExcelRange(_range.End[(MsExcel.XlDirection)direction]/*, _registerAutoDispose*/);
 
-        internal ExcelRange(MsExcel.Range range, Action<IExcelRange> registerAutoDispose)
+        internal ExcelRange(MsExcel.Range range/*, Action<IExcelRange> registerAutoDispose*/)
         {
             _range = range;
-            _disposedValue = false;
-            _registerAutoDispose = registerAutoDispose;
+            //_disposedValue = false;
+            //_registerAutoDispose = registerAutoDispose;
         }
 
-        private MsExcel.Range _range;
-        private Action<IExcelRange> _registerAutoDispose;
+        private readonly MsExcel.Range _range;
+        //private readonly Action<IExcelRange> _registerAutoDispose;
 
         #region IDisposable Support
-        private bool _disposedValue;
+        //private bool _disposedValue;
 
-        private void Dispose(bool disposing)
-        {
-            if (_disposedValue)
-                return;
+        //private void Dispose(bool disposing)
+        //{
+        //    if (_disposedValue)
+        //        return;
 
-            if (disposing && _range != null)
-            {
-                try { while (0 < Marshal.ReleaseComObject(_range)) { } } catch { }
-                _range = null;
-                GC.Collect();
-            }
+        //    if (disposing && _range != null)
+        //    {
+        //        try { while (0 < Marshal.ReleaseComObject(_range)) { } } catch { }
+        //        _range = null;
+        //        GC.Collect();
+        //    }
 
-            _disposedValue = true;
-        }
+        //    _disposedValue = true;
+        //}
 
-        public void Dispose()
-            => Dispose(true);
+        //public void Dispose()
+        //    => Dispose(true);
 
         #endregion
 
         IEnumerator<IExcelRange> IExcelRange.GetEnumerator()
         {
-            var autoDispose = _registerAutoDispose;
+            //var autoDispose = _registerAutoDispose;
             return _range
                 .Cast<MsExcel.Range>()
-                .Select(r => new ExcelRange(r, autoDispose) as IExcelRange)
+                .Select(r => new ExcelRange(r/*, autoDispose*/) as IExcelRange)
                 .GetEnumerator();
         }
 
         IEnumerator<IExcelRow> IExcelRows.GetEnumerator()
         {
-            var autoDispose = _registerAutoDispose;
+            //var autoDispose = _registerAutoDispose;
             return _range
                 .Rows
                 .Cast<MsExcel.Range>()
-                .Select(r => new ExcelRange(r, autoDispose) as IExcelRow)
+                .Select(r => new ExcelRange(r/*, autoDispose*/) as IExcelRow)
                 .GetEnumerator();
         }
 
         IEnumerator<IExcelRange> IExcelRow.GetEnumerator()
         {
-            var autoDispose = _registerAutoDispose;
+            //var autoDispose = _registerAutoDispose;
             return _range
                 .Columns
                 .Cast<MsExcel.Range>()
-                .Select(r => new ExcelRange(r, autoDispose) as IExcelRange)
+                .Select(r => new ExcelRange(r/*, autoDispose*/) as IExcelRange)
                 .GetEnumerator();
         }
 
         IEnumerator<IExcelColumn> IExcelColumns.GetEnumerator()
         {
-            var autoDispose = _registerAutoDispose;
+            //var autoDispose = _registerAutoDispose;
             return _range
                 .Columns
                 .Cast<MsExcel.Range>()
-                .Select(r => new ExcelRange(r, autoDispose) as IExcelColumn)
+                .Select(r => new ExcelRange(r/*, autoDispose*/) as IExcelColumn)
                 .GetEnumerator();
         }
 
         IEnumerator<IExcelRange> IExcelColumn.GetEnumerator()
         {
-            var autoDispose = _registerAutoDispose;
+            //var autoDispose = _registerAutoDispose;
             return _range
                 .Rows
                 .Cast<MsExcel.Range>()
-                .Select(r => new ExcelRange(r, autoDispose) as IExcelRange)
+                .Select(r => new ExcelRange(r/*, autoDispose*/) as IExcelRange)
                 .GetEnumerator();
         }
     }

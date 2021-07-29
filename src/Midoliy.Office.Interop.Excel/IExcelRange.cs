@@ -7,8 +7,10 @@ namespace Midoliy.Office.Interop
     using static Midoliy.Office.Interop.InsertShiftDirection;
     using static Midoliy.Office.Interop.InsertFormatOrigin;
 
-    public interface IExcelRange : IDisposable
+    public interface IExcelRange //: IDisposable
     {
+        double Top { get; }
+        double Left { get; }
         int Height { get; }
         int Width { get; }
         int RowHeight { get; set; }
@@ -82,14 +84,14 @@ namespace Midoliy.Office.Interop
         /// <param name="direction">挿入後、元の範囲を右方向と下方向のどちらに移動するか指定</param>
         /// <param name="origin">書式をコピーしてくる方向を指定</param>
         /// <returns>true: 処理成功</returns>
-        bool Insert(InsertShiftDirection direction = Down, InsertFormatOrigin origin = FromRightOrBelow);
+        bool Insert(InsertShiftDirection direction = InsertShiftDirection.Down, InsertFormatOrigin origin = FromRightOrBelow);
 
         /// <summary>
         /// 対象のセルを削除する
         /// </summary>
         /// <param name="direction">セルを削除したあとのシフト方向</param>
         /// <returns>true: 処理成功</returns>
-        bool Delete(DeleteShiftDirection direction = Left);
+        bool Delete(DeleteShiftDirection direction = DeleteShiftDirection.Left);
 
         /// <summary>
         /// 指定した方向の最端セルを取得する

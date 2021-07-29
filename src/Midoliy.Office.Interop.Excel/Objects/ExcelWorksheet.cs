@@ -28,7 +28,7 @@ namespace Midoliy.Office.Interop.Objects
                 if (row < 1 || col < 1)
                     throw new ArgumentOutOfRangeException($"'row' or 'col' is an out-of-range value. ('row' = {row} / 'col' = {col})");
 
-                var range = new ExcelRange(_sheet.Cells[row, col] as MsExcel.Range, AddTrashcan);
+                var range = new ExcelRange(_sheet.Cells[row, col] as MsExcel.Range/*, AddTrashcan*/);
                 _trashcan.Add(range);
                 return range;
             }
@@ -38,7 +38,7 @@ namespace Midoliy.Office.Interop.Objects
         {
             get
             {
-                var range = new ExcelRange(_sheet.Range[address], AddTrashcan);
+                var range = new ExcelRange(_sheet.Range[address]/*, AddTrashcan*/);
                 _trashcan.Add(range);
                 return range;
             }
@@ -127,8 +127,8 @@ namespace Midoliy.Office.Interop.Objects
 
             if (disposing)
             {
-                foreach (var range in _trashcan)
-                    range?.Dispose();
+                //foreach (var range in _trashcan)
+                //    range?.Dispose();
 
                 if (_sheet != null)
                 {
