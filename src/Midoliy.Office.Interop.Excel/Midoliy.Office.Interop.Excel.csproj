@@ -11,7 +11,7 @@
     <PackageId>Midoliy.Office.Interop.Excel</PackageId>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.6.29</Version>
+    <Version>0.0.6.30</Version>
     <Company />
     <PackageIcon>midoliy_logo.png</PackageIcon>
     <PackageProjectUrl>https://github.com/Midoliy/Midoliy.Office.Interop.Excel</PackageProjectUrl>
