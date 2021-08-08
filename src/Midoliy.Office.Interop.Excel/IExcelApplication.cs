@@ -10,9 +10,11 @@ namespace Midoliy.Office.Interop
         AppVisibility Visibility { get; set; }
         Calculation Calculation { get; set; }
         int Count { get; }
+        int Hwnd { get; }
 
         IWorkbook this[int index] { get; }
         IWorkbook this[string name] { get; }
+        IWorkbook ActiveWorkbook { get; }
 
         IWorkbook Workbooks(int index);
         IWorkbook Workbooks(string name);

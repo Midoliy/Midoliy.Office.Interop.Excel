@@ -56,8 +56,8 @@ namespace Midoliy.Office.Interop.Objects
         public void SaveAs(string fullpath)
             => _book.SaveAs(Path.GetFullPath(fullpath));
 
-        public void Close()
-            => _book.Close();
+        public void Close(bool saveChanges = false)
+            => _book.Close(saveChanges);
 
         public IEnumerator<IWorksheet> GetEnumerator()
             => _children.GetEnumerator();

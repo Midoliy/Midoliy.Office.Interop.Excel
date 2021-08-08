@@ -28,15 +28,14 @@ namespace Midoliy.Office.Interop.Objects
         /// <summary>
         /// ブック数
         /// </summary>
-        public int Count
-            => _children.Count;
+        public int Count => _children.Count;
 
         /// <summary>
         /// 指定したWorkbook名と一致するWorkbookを取得する
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public IWorkbook this[string name] 
+        public IWorkbook this[string name]
             => _children.First(c => c.Name == name);
 
         /// <summary>
@@ -44,8 +43,18 @@ namespace Midoliy.Office.Interop.Objects
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public IWorkbook this[int index] 
+        public IWorkbook this[int index]
             => _children[index - 1];
+
+        public IWorkbook ActiveWorkbook
+        {
+            get
+            {
+                var book = new ExcelWorkbook(_app.ActiveWorkbook);
+                _children.Add(book);
+                return book;
+            }
+        }
 
         /// <summary>
         /// 指定したindex位置にあるWorkbookを取得する
@@ -138,6 +147,7 @@ namespace Midoliy.Office.Interop.Objects
             Visibility = AppVisibility.Hidden;
             _disposedValue = false;
         }
+
         internal ExcelApplication(MsExcel.Application app, Calculation calculation)
         {
             _app = app;
@@ -170,20 +180,23 @@ namespace Midoliy.Office.Interop.Objects
                 foreach (var book in _children)
                 {
                     if (Visibility == AppVisibility.Hidden)
-                        book?.Close();
+                        book?.Close(saveChanges: false);
 
                     book?.Dispose();
                 }
 
                 if(_app != null)
                 {
-                    _app.IgnoreRemoteRequests = false;
-                    _app.DisplayAlerts = true;
-
                     if (Visibility == AppVisibility.Hidden)
                         _app.Quit();
                     else
                         _app.Visible = true;
+
+                    _app.IgnoreRemoteRequests = false;
+                    _app.DisplayAlerts = true;
+
+                    if (Visibility == AppVisibility.Hidden)
+                        Excel.ForcedClose(this);
 
                     try { while (0 < Marshal.ReleaseComObject(_app)) { } } catch { }
                     _app = null;
@@ -197,5 +210,7 @@ namespace Midoliy.Office.Interop.Objects
         public void Dispose()
             => Dispose(true);
         #endregion
+
+        public int Hwnd => _app.Hwnd;
     }
 }

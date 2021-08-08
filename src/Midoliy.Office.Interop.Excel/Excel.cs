@@ -82,5 +82,23 @@ namespace Midoliy.Office.Interop
             _ = excel.Open(filePath);
             return excel;
         }
+
+        public static void ForcedClose(IExcelApplication app)
+        {
+            try
+            {
+                GetWindowThreadProcessId(app.Hwnd, out int id);
+                SendMessage(app.Hwnd, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
+                Process.GetProcessById(id).Kill();
+            }
+            catch { }
+        }
+
+        [DllImport("User32.dll", EntryPoint = "SendMessage")]
+        private static extern int SendMessage(int hWnd, int Msg, IntPtr wParam, IntPtr lParam);
+        [DllImport("user32")]
+        private extern static int GetWindowThreadProcessId(int hwnd, out int lpdwprocessid);
+
+        private const int WM_CLOSE = 0x0010;
     }
 }

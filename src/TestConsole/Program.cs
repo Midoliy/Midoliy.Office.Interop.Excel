@@ -16,32 +16,33 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
-            //using (var app = Excel.BlankWorkbook())
-            //{
-            //    app.Visibility = AppVisibility.Visible;
-            //
-            //    var book = app[1];
-            //    var sheet = book[1];
-            //    sheet["A1"].Value = 100;
-            //    sheet["B1"].Value = "Test String";
-            //    sheet["B2"].Value = "Test String2";
-            //    app[1][1][1, 1].Value = 100;
-            //    app[1][1]["C1"].Paste(app[1][1][1, 1]);
-            //
-            //    // ============================================================================
-            //    //     ↓↓↓↓↓    ver 0.0.5.4 追加分    ↓↓↓↓↓
-            //    //
-            //    var a1 = app.Workbooks(1).Worksheets(1).Cells("A1");
-            //
-            //    // フォントサイズの変更
-            //    a1.Font.Size = 24;
-            //
-            //    // フォントスタイル変更
-            //    a1.Font.Style = Bold | Italic | Shadow | Strikethrough | Subscript | DoubleUnderline;
-            //
-            //    // セルの削除機能
-            //    a1.Delete(DeleteShiftDirection.Up);
-            //}
+            using (var app = Excel.BlankWorkbook())
+            {
+                app.Visibility = AppVisibility.Hidden;
+
+                //var book = app[1];
+                //var sheet = book[1];
+                var sheet = app[1][1];
+                sheet["A1"].Value = 100;
+                sheet["B1"].Value = "Test String";
+                sheet["B2"].Value = "Test String2";
+                app[1][1][1, 1].Value = 100;
+                //app[1][1]["C1"].Paste(app[1][1][1, 1]);
+
+                // ============================================================================
+                //     ↓↓↓↓↓    ver 0.0.5.4 追加分    ↓↓↓↓↓
+                //
+                var a1 = app.Workbooks(1).Worksheets(1).Cells("A1");
+
+                // フォントサイズの変更
+                a1.Font.Size = 24;
+
+                // フォントスタイル変更
+                a1.Font.Style = Bold | Italic | Shadow | Strikethrough | Subscript | DoubleUnderline;
+
+                // セルの削除機能
+                a1.Delete(DeleteShiftDirection.Up);
+            }
 
             //using (var app = Excel.BlankWorkbook())
             //{
@@ -99,36 +100,37 @@ namespace TestConsole
             //}
 
 
-            var ps = Excel.EnumerateProcess();
-            using (var excel = Excel.Attach((int)ps[0].MainWindowHandle))
-            {
-                var sheet = excel[1][1];
-                sheet["A1:A3"].Value = 100;
-                sheet["B1:B3"].Value = 200;
+            //var ps = Excel.EnumerateProcess();
+            //using (var excel = Excel.Attach((int)ps[0].MainWindowHandle))
+            //{
+            //    var sheet = excel[1][1];
+            //    sheet["A1:A3"].Value = 100;
+            //    sheet["B1:B3"].Value = 200;
 
-                var range = sheet["A1:B3"];
+            //    var range = sheet["A1:B3"];
 
-                foreach (var row in sheet["A1:B3"].Rows)
-                {
-                    foreach (var cell in row)
-                    {
-                        Console.Write(cell.Value + " ");
-                    }
-                    Console.WriteLine();
-                }
-                Console.WriteLine();
+            //    foreach (var row in sheet["A1:B3"].Rows)
+            //    {
+            //        foreach (var cell in row)
+            //        {
+            //            Console.Write(cell.Value + " ");
+            //        }
+            //        Console.WriteLine();
+            //    }
+            //    Console.WriteLine();
 
-                foreach (var column in sheet["A1:B3"].Columns)
-                {
-                    foreach (var cell in column)
-                    {
-                        Console.Write(cell.Value + " ");
-                    }
-                    Console.WriteLine();
-                }
-            }
+            //    foreach (var column in sheet["A1:B3"].Columns)
+            //    {
+            //        foreach (var cell in column)
+            //        {
+            //            Console.Write(cell.Value + " ");
+            //        }
+            //        Console.WriteLine();
+            //    }
+            //}
 
-            Console.ReadKey();
+            Console.WriteLine("END");
+            //Console.ReadKey();
         }
     }
 

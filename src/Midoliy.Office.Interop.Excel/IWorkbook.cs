@@ -21,6 +21,6 @@ namespace Midoliy.Office.Interop
 
         void Save();
         void SaveAs(string fullpath);
-        void Close();
+        void Close(bool saveChanges = false);
     }
 }
