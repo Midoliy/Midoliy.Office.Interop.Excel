@@ -11,20 +11,20 @@ namespace Midoliy.Office.Interop.Objects
 {
     internal readonly struct ExcelShapes : IExcelShapes
     {
-        public IExcelShape AddChart(ChartRecipe recipe, IExcelRange range, bool newLayout) =>
-            AddChart(recipe, range, range, range, range, newLayout);
+        public IExcelShape AddChart(in ChartRecipe recipe) => new ExcelShape(_shapes.AddChart2(Style: recipe.Style, XlChartType: recipe.Type));
 
-        public IExcelShape AddChart(ChartRecipe recipe, IExcelRange left, IExcelRange top, IExcelRange width, IExcelRange height, bool newLayout)
-        {
-            return new ExcelShape(_shapes.AddChart2(
-                Style: recipe.Style,
-                XlChartType: recipe.Type,
-                Left: left.Left,
-                Top: top.Top,
-                Width: width.Width,
-                Height: height.Height,
-                NewLayout: newLayout));
-        }
+        public IExcelShape AddChart(in ChartRecipe recipe, IExcelRange range, bool newLayout) => AddChart(recipe, range, range, range, range, newLayout);
+
+        public IExcelShape AddChart(in ChartRecipe recipe, IExcelRange left, IExcelRange top, IExcelRange width, IExcelRange height, bool newLayout) =>
+            new ExcelShape(
+                _shapes.AddChart2(
+                    Style: recipe.Style,
+                    XlChartType: recipe.Type,
+                    Left: left.Left,
+                    Top: top.Top,
+                    Width: width.Width,
+                    Height: height.Height,
+                    NewLayout: newLayout));
 
         internal ExcelShapes(MsExcel.Shapes shapes)
         {

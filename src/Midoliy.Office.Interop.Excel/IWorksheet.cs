@@ -146,6 +146,8 @@ namespace Midoliy.Office.Interop
         /// </summary>
         void Delete();
 
+        IExcelShapes Shapes { get; }
+
         void Save();
         void SaveAs(string fullpath);
     }
