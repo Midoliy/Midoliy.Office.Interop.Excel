@@ -55,8 +55,8 @@
         public static ChartRecipe MakeBarOfPie(OfPieChartStyle style = OfPieChartStyle.Default) => new ChartRecipe(ChartType.XlBarOfPie, (int)style);
         public static ChartRecipe MakeDoughnut(DoughnutChartStyle style = DoughnutChartStyle.Default) => new ChartRecipe(ChartType.XlDoughnut, (int)style);
         public static ChartRecipe MakeDoughnutExploded(DoughnutChartStyle style = DoughnutChartStyle.Default) => new ChartRecipe(ChartType.XlDoughnutExploded, (int)style);
-        public static ChartRecipe MakeDoughnut(PieChartStyle style = PieChartStyle.Default) => new ChartRecipe(ChartType.XlPie, (int)style);
-        public static ChartRecipe MakeDoughnutExploded(PieChartStyle style = PieChartStyle.Default) => new ChartRecipe(ChartType.XlPieExploded, (int)style);
+        public static ChartRecipe MakePie(PieChartStyle style = PieChartStyle.Default) => new ChartRecipe(ChartType.XlPie, (int)style);
+        public static ChartRecipe MakePieExploded(PieChartStyle style = PieChartStyle.Default) => new ChartRecipe(ChartType.XlPieExploded, (int)style);
         public static ChartRecipe Make3DPieExploded(Xl3DPieChartStyle style = Xl3DPieChartStyle.Default) => new ChartRecipe(ChartType.Xl3DPieExploded, (int)style);
         public static ChartRecipe Make3DPie(Xl3DPieChartStyle style = Xl3DPieChartStyle.Default) => new ChartRecipe(ChartType.Xl3DPie, (int)style);
         public static ChartRecipe MakeXYScatterSmooth(XYScatterChartStyle style = XYScatterChartStyle.Default) => new ChartRecipe(ChartType.XlXYScatterSmooth, (int)style);

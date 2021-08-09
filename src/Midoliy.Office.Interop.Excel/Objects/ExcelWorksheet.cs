@@ -28,8 +28,7 @@ namespace Midoliy.Office.Interop.Objects
                 if (row < 1 || col < 1)
                     throw new ArgumentOutOfRangeException($"'row' or 'col' is an out-of-range value. ('row' = {row} / 'col' = {col})");
 
-                var range = new ExcelRange(_sheet.Cells[row, col] as MsExcel.Range/*, AddTrashcan*/);
-                //_trashcan.Add(range);
+                var range = new ExcelRange(_sheet.Cells[row, col] as MsExcel.Range);
                 return range;
             }
         }
@@ -38,8 +37,7 @@ namespace Midoliy.Office.Interop.Objects
         {
             get
             {
-                var range = new ExcelRange(_sheet.Range[address]/*, AddTrashcan*/);
-                //_trashcan.Add(range);
+                var range = new ExcelRange(_sheet.Range[address]);
                 return range;
             }
         }
@@ -70,16 +68,12 @@ namespace Midoliy.Office.Interop.Objects
         internal ExcelWorksheet(MsExcel.Worksheet sheet, Action onSave = null, Action<string> onSaveAs = null)
         {
             _sheet = sheet;
-            //_trashcan = new List<IExcelRange>();
             _disposedValue = false;
             _onSave = onSave;
             _onSaveAs = onSaveAs;
         }
 
-        //private void AddTrashcan(IExcelRange range) => _trashcan.Add(range);
-
         private MsExcel.Worksheet _sheet;
-        //private List<IExcelRange> _trashcan;
         private Action _onSave;
         private Action<string> _onSaveAs;
 
@@ -93,9 +87,6 @@ namespace Midoliy.Office.Interop.Objects
 
             if (disposing)
             {
-                //foreach (var range in _trashcan)
-                //    range?.Dispose();
-
                 if (_sheet != null)
                 {
                     try { while (0 < Marshal.ReleaseComObject(_sheet)) { } } catch { }

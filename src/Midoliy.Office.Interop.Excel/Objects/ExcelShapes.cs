@@ -11,10 +11,8 @@ namespace Midoliy.Office.Interop.Objects
 {
     internal readonly struct ExcelShapes : IExcelShapes
     {
-        public IExcelShape AddChart(ChartRecipe recipe) => new ExcelShape(_shapes.AddChart2(Style: recipe.Style, XlChartType: recipe.Type));
-
+        public IExcelShape AddChart(ChartRecipe recipe, bool newLayout) => new ExcelShape(_shapes.AddChart2(Style: recipe.Style, XlChartType: recipe.Type, NewLayout: newLayout));
         public IExcelShape AddChart(ChartRecipe recipe, IExcelRange range, bool newLayout) => AddChart(recipe, range, range, range, range, newLayout);
-
         public IExcelShape AddChart(ChartRecipe recipe, IExcelRange left, IExcelRange top, IExcelRange width, IExcelRange height, bool newLayout) =>
             new ExcelShape(
                 _shapes.AddChart2(
@@ -29,32 +27,8 @@ namespace Midoliy.Office.Interop.Objects
         internal ExcelShapes(MsExcel.Shapes shapes)
         {
             _shapes = shapes;
-            //_disposedValue = false;
         }
 
-        private readonly MsExcel.Shapes _shapes;
-
-        #region IDisposable Support
-        //private bool _disposedValue;
-
-        //private void Dispose(bool disposing)
-        //{
-        //    if (_disposedValue)
-        //        return;
-
-        //    if (disposing && _shapes != null)
-        //    {
-        //        try { while (0 < Marshal.ReleaseComObject(_shapes)) { } } catch { }
-        //        _shapes = null;
-        //        GC.Collect();
-        //    }
-
-        //    _disposedValue = true;
-        //}
-
-        //public void Dispose() => Dispose(true);
-        #endregion
-
-
+        internal readonly MsExcel.Shapes _shapes;
     }
 }
