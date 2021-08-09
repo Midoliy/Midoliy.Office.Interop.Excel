@@ -83,7 +83,7 @@ namespace Midoliy.Office.Interop
         XlAreaStacked100 = 77,
         /// <summary>3-D 積み上げ面</summary>
         Xl3DAreaStacked = 78,
-        /// <summary>100% 積み上げ面</summary>
+        /// <summary>3-D 100% 積み上げ面</summary>
         Xl3DAreaStacked100 = 79,
         /// <summary>分割ドーナツ</summary>
         XlDoughnutExploded = 80,
